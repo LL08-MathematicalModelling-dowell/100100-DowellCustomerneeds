@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-// import ComboBox from "./components/ComboBox";
-import Home from "./components/Home";
+import axios from "./axios";
+import NavBar from "./components/NavBar";
+
 
 function App() {
+  const [myData, setMyData] = useState([]);
+  const [isError, setIsError] = useState("");
+
+  const getMyServiceData = async() =>{
+    try {
+      const res = await axios.get("/services");
+      setMyData(res.data)
+    } catch (error) {
+      setIsError(error.message);
+    }
+  }
+
+  useEffect(() => {
+    getMyServiceData();
+  }, []);
+
   return (
     <>
-        <div
-          style={{
-            display: "block",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "10"
-          }}
-        >
+    <NavBar/>
+      <div>
+      {isError !== "" && <h2>{isError}</h2>}
+
+      {myData.map((services) => {
+        const { id, category, location, product } = services;
+        return (
+          <div className="flex">
+            <li key={services.id}>{category}</li>
+            <li key={services.id}>{location}</li>
+            <li key={services.id}>{product}</li>
+          </div>
           
-          <Home/>
-          
-        </div>
+        );
+      })}
+      </div>
     </>
   );
 }
-
 
 export default App;
