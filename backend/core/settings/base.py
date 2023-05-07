@@ -25,7 +25,7 @@ SECRET_KEY = '(a_z9)ckadw4n(x&-&ov-dxw^3(e-xcdb&n%yzxtbue)z%k6b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'connect',
+    'services',
     'rest_framework',
     'corsheaders',
 ]
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "connect_api_backend/templates")],
+        'DIRS': [os.path.join(BASE_DIR, "connect_api_backend/../../templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,9 +124,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",
-    "http://localhost:3000"
+    "http://127.0.0.1:5173",
+    "http://localhost:5173"
 ]
-CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
+
 CORS_ALLOW_CREDENTIALS = True
+
