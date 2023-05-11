@@ -49,9 +49,9 @@ export default function AutoCompleter() {
     e.preventDefault();
 
     const payload = {
-      q1: selectedQ1Data,
-      q2: selectedQ2Data,
-      q3: selectedQ3Data,
+      q1: selectedQ1Data?.Item || "",
+      q2: selectedQ2Data?.Item || "",
+      q3: selectedQ3Data?.Item || "",
     };
 
     fetch("http://127.0.0.1:8000/api/services/", {
@@ -86,7 +86,7 @@ export default function AutoCompleter() {
           <Autocomplete
             disablePortal
             id="q1"
-            options={q1Data}
+            options={loading ? [] : q1Data}
             value={selectedQ1Data}
             onChange={(e, v) => setSelectedQ1Data(v)}
             sx={{ width: 400 }}
@@ -94,11 +94,18 @@ export default function AutoCompleter() {
             renderInput={(params) => (
               <TextField {...params} label="I am from" size="small" />
             )}
+            renderOption={(props, option) =>
+              loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <li {...props}>{option.Item}</li>
+              )
+            }
           />
           <Autocomplete
             disablePortal
             id="q2"
-            options={q2Data}
+            options={loading ? [] : q2Data}
             value={selectedQ2Data}
             onChange={(e, v) => setSelectedQ2Data(v)}
             sx={{ width: 400 }}
@@ -106,11 +113,18 @@ export default function AutoCompleter() {
             renderInput={(params) => (
               <TextField {...params} label="How to" size="small" />
             )}
+            renderOption={(props, option) =>
+              loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <li {...props}>{option.Item}</li>
+              )
+            }
           />
           <Autocomplete
             disablePortal
             id="q3"
-            options={q3Data}
+            options={loading ? [] : q3Data}
             value={selectedQ3Data}
             onChange={(e, v) => setSelectedQ3Data(v)}
             sx={{ width: 400 }}
@@ -118,6 +132,13 @@ export default function AutoCompleter() {
             renderInput={(params) => (
               <TextField {...params} label="For" size="small" />
             )}
+            renderOption={(props, option) =>
+              loading ? (
+                <CircularProgress size={20} />
+              ) : (
+                <li {...props}>{option.Item}</li>
+              )
+            }
           />
 
           <Button
