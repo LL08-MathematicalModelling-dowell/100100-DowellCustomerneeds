@@ -11,7 +11,7 @@ class ServiceView(generics.ListAPIView):
     def post(self, request):
         data = request.data
         serializer = ServicesSerializer(data=data)
-
+        print(data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse("Service Added Successfully", safe=False)
