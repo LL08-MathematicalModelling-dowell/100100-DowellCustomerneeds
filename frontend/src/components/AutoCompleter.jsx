@@ -16,18 +16,19 @@ export default function AutoCompleter() {
   const [loading, setLoading] = useState(false);
   const isSubmitDisabled =
     !selectedQ1Data || !selectedQ2Data || !selectedQ3Data;
-  const [progress, setProgress] = React.useState(0);  
+  const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 50));
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 50
+      );
     }, 800);
 
     return () => {
       clearInterval(timer);
     };
   }, []);
-
 
   useEffect(() => {
     setLoading(true); // set loading to true when the fetch request is initiated
@@ -108,7 +109,11 @@ export default function AutoCompleter() {
           pr={1}
           p={4}
           display="flex"
+          flexDirection={{ xs: "column", md: "row" }}
+          alignItems="center"
           justifyContent="center"
+          gap={2}
+          flexWrap="wrap"
         >
           <Autocomplete
             disablePortal
@@ -116,10 +121,25 @@ export default function AutoCompleter() {
             options={loading ? [] : q1Data}
             value={selectedQ1Data}
             onChange={(e, v) => setSelectedQ1Data(v)}
-            sx={{ width: 400 }}
+            sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
             getOptionLabel={(q1Data) => q1Data.Item || ""}
             renderInput={(params) => (
-              <TextField {...params} label={loading ? <CircularProgress size={24} variant="determinate" value={progress}  color="primary" /> : "I am from"} size="small" />
+              <TextField
+                {...params}
+                label={
+                  loading ? (
+                    <CircularProgress
+                      size={24}
+                      variant="determinate"
+                      value={progress}
+                      color="primary"
+                    />
+                  ) : (
+                    "I am from"
+                  )
+                }
+                size="small"
+              />
             )}
           />
           <Autocomplete
@@ -128,32 +148,72 @@ export default function AutoCompleter() {
             options={loading ? [] : q2Data}
             value={selectedQ2Data}
             onChange={(e, v) => setSelectedQ2Data(v)}
-            sx={{ width: 400 }}
+            sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
             getOptionLabel={(q2Data) => q2Data.Item || ""}
             renderInput={(params) => (
-              <TextField {...params} label={loading ? <CircularProgress size={24} variant="determinate" value={progress}  color="primary" /> : "How to"} size="small" />
+              <TextField
+                {...params}
+                label={
+                  loading ? (
+                    <CircularProgress
+                      size={24}
+                      variant="determinate"
+                      value={progress}
+                      color="primary"
+                    />
+                  ) : (
+                    "How to"
+                  )
+                }
+                size="small"
+              />
             )}
           />
           <Autocomplete
-          disablePortal
-          id="q3"
-          options={loading ? [] : q3Data}
-          value={selectedQ3Data}
-          onChange={(e, v) => setSelectedQ3Data(v)}
-          sx={{ width: 400 }}
-          getOptionLabel={(q3Data) => q3Data.Item || ""}
-          renderInput={(params) => (
-            <TextField {...params} label={loading ? <CircularProgress size={24} variant="determinate" value={progress}  color="primary" /> : "For"} size="small" />
-          )}
-        />
+            disablePortal
+            id="q3"
+            options={loading ? [] : q3Data}
+            value={selectedQ3Data}
+            onChange={(e, v) => setSelectedQ3Data(v)}
+            sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
+            getOptionLabel={(q3Data) => q3Data.Item || ""}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={
+                  loading ? (
+                    <CircularProgress
+                      size={24}
+                      variant="determinate"
+                      value={progress}
+                      color="primary"
+                    />
+                  ) : (
+                    "For"
+                  )
+                }
+                size="small"
+              />
+            )}
+          />
 
           <Button
             variant="contained"
             color="primary"
             onClick={handleFormSubmit}
             disabled={isSubmitDisabled}
+            sx={{ width: "100%", maxWidth: 250 }}
           >
-            {loading ? <CircularProgress size={24} variant="determinate" value={progress}  color="primary" /> : "Submit"}
+            {loading ? (
+              <CircularProgress
+                size={24}
+                variant="determinate"
+                value={progress}
+                color="primary"
+              />
+            ) : (
+              "Submit"
+            )}
           </Button>
         </Box>
       </Card>
