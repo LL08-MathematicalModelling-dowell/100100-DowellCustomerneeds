@@ -5,69 +5,119 @@ from rest_framework.response import Response
 class Q1View(APIView):
     def get(self, request):
         q1 = [
-            {
-                "Item ID": 10001,
-                "Item":"Education",
-                "tag 1": 101,
-                "tag 2": 103,
-                "tag 3": 106
-            },
-            {
-                "Item ID":10002,
-                "Item": "Entertainment",
-                "tag 1": 104,
-                "tag 2": 105,
-                "tag 3": 112
-            }
+            [
+                "Item ID",
+                "Item",
+                "tag 1",
+                "tag 2",
+                "tag 3"
+            ],
+            [
+                10001,
+                "Education",
+                "101",
+                "103",
+                "106"
+            ],
+            [
+                10002,
+                "Entertainment",
+                "104",
+                "105",
+                "112"
+            ]
         ]
-       # new_dict = {item["Item ID"]:item["Item"] for item in q1}
-        return Response(q1)
+        columns = q1[0]
+        converted_q1_data = []
+
+        for row in q1[1:]:
+            converted_item = {
+                columns[0]: row[0],
+                columns[1]: row[1],
+                "tags": set(str(tag) for tag in row[2:])
+            }
+            converted_q1_data.append(converted_item)
+
+        return Response(converted_q1_data)
 
 
 class Q2View(APIView):
     def get(self, request):
         q2 = [
-            {
-                "Item ID": 200001,
-                "Item": "Manage classes",
-                "tag 1": 101,
-                "tag 2": 106
-            },
-            {
-                "Item ID": 200002,
-                "Item": "Conduct examination",
-                "tag 1": 110,
-                "tag 2": 111,
-                "tag 3": 109
-            },
-            {
-                "Item ID": 200003,
-                "Item": "Create queue",
-                "tag 1": 106,
-                "tag 2": 101,
-                "tag 3": 102
-            }
+            [
+                "Item ID",
+                "Item",
+                "tag 1",
+                "tag 2"
+            ],
+            [
+                200001,
+                "Manage classes",
+                101,
+                106
+            ],
+            [
+                200002,
+                "Conduct examination",
+                110,
+                111,
+                109
+            ],
+            [
+                200003,
+                "Create queue",
+                106,
+                101,
+                102
+            ]
         ]
-        # new_dict = {item["Item ID"]: item["Item"] for item in q2}
-        return Response(q2)
+
+        columns = q2[0]
+        converted_q2_data = []
+
+        for row in q2[1:]:
+            converted_item = {
+                columns[0]: row[0],
+                columns[1]: row[1],
+                "tags": set(str(tag) for tag in row[2:])
+            }
+            converted_q2_data.append(converted_item)
+
+        return Response(converted_q2_data)
 
 
 class Q3View(APIView):
     def get(self, request):
         q3 = [
-            {
-                "Item ID": 300001,
-                "Item":"Classes",
-                "tag 1": 101,
-                "tag 2": 103
-            },
-            {
-                "Item ID": 300002,
-                "Item":"Students",
-                "tag 1": 110,
-                "tag 2": 101,
-                "tag 3": 111
-            }
+            [
+                "Item ID",
+                "Item",
+                "tag 1",
+                "tag 2"
+            ],
+            [
+                300001,
+                "Classes",
+                101,
+                103
+            ],
+            [
+                300002,
+                "Students",
+                110,
+                101,
+                111
+            ],
         ]
-        # new_dict = {item["Item ID"]: item["Item"] for item in q3}
-        return Response(q3)
+
+        columns = q3[0]
+        converted_q3_data = []
+
+        for row in q3[1:]:
+            converted_item = {
+                columns[0]: row[0],
+                columns[1]: row[1],
+                "tags": set(str(tag) for tag in row[2:])
+            }
+            converted_q3_data.append(converted_item)
+        return Response(converted_q3_data)
