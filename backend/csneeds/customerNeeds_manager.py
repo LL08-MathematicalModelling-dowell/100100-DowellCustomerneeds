@@ -10,7 +10,7 @@ def fetch_q1_data(request):
 
 
 def fetch_q2_data(request):
-    url = "https://script.google.com/macros/s/AKfycbyWzZe0_yXK9WDOsZyXm6MX3C9C6GESTVuCbOneew3DXAFPUIy3D3aQ6WPx48Ty5U0h/exec"
+    url = "https://script.google.com/macros/s/AKfycbz3Q5QbS-rwYo0OCwPPg7On6dPESPglRmQNbdhK3GQlRJRh23BnCXK1mKnY5775lsm-/exec"
 
     response = requests.get(url)
     data = response.json()
@@ -18,7 +18,7 @@ def fetch_q2_data(request):
 
 
 def fetch_q3_data(request):
-    url = "https://script.google.com/macros/s/AKfycbzcTPohhNI0YjCl8OyZumciAgJfkFKdCKG_clNC_0TUYDywdxtHtQgiqWIet8VQYlk/exec"
+    url = "https://script.google.com/macros/s/AKfycbztX-CX89Ad1d75WCnyqewERJUJDsOcYh1qkTDLtWe7PCdKVJR7ZPu-4_p6-8sAeeU/exec"
 
     response = requests.get(url)
     data = response.json()
