@@ -3,7 +3,9 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Typography } from "@mui/material";
+import { usePostClient } from "../client/postClient";
+import { Status } from "../client/status";
 
 export default function AutoCompleter() {
   const [q1Data, setQ1Data] = useState([]);
@@ -215,8 +217,154 @@ export default function AutoCompleter() {
               "Submit"
             )}
           </Button>
+          <AllBasket />
         </Box>
       </Card>
     </>
   );
 }
+
+const classificationData = {
+  country: [
+    {
+      item: "India",
+      itemLink: "Asia",
+    },
+    {
+      item: "USA",
+      itemLink: "North America",
+    },
+    {
+      item: "Germany",
+      itemLink: "Europe",
+    },
+  ],
+  state: [
+    {
+      item: "Uttar Pradesh",
+      itemLink: "India",
+    },
+    {
+      item: "Maharashtra",
+      itemLink: "India",
+    },
+    {
+      item: "Georgia",
+      itemLink: "USA",
+    },
+    {
+      item: "Nevada",
+      itemLink: "USA",
+    },
+    {
+      item: "Bavaria",
+      itemLink: "Germany",
+    },
+    {
+      item: "Brandenburg",
+      itemLink: "Germany",
+    },
+  ],
+  city: [
+    {
+      item: "Agra",
+      itemLink: "Uttar Pradesh",
+    },
+    {
+      item: "Noida",
+      itemLink: "Uttar Pradesh",
+    },
+    {
+      item: "Pune",
+      itemLink: "Maharashtra",
+    },
+    {
+      item: "Mumbai",
+      itemLink: "Maharashtra",
+    },
+    {
+      item: "Atlanta",
+      itemLink: "Georgia",
+    },
+    {
+      item: "Carson City",
+      itemLink: "Nevada",
+    },
+    {
+      item: "Munich",
+      itemLink: "Bavaria",
+    },
+    {
+      item: "Potsdam",
+      itemLink: "Brandenburg",
+    },
+  ],
+};
+
+const BASE_URL = "http://100061.pythonanywhere.com";
+
+const AllBasket = () => {
+  const { status, responseData, postData } = usePostClient();
+  const {
+    status: typeResponseStatus,
+    responseData: typeResponseData,
+    postData: typePostData,
+  } = usePostClient();
+
+  const allBasketRequest = () => {
+    postData(
+      classificationData,
+      "http://100061.pythonanywhere.com/allbaskets/"
+    );
+  };
+
+  useEffect(() => {
+    if (responseData == undefined) return;
+
+    if (status == Status.Success) {
+      const data = {
+        numberOfLevels: 3,
+        classificationType: "N",
+        dbInsertedId: responseData.dbInsertedId,
+      };
+      typePostData(data, BASE_URL + "/type/");
+    }
+  }, [status, responseData]);
+
+  useEffect(() => {
+    console.log(typeResponseData);
+  }, [typeResponseStatus, typeResponseData]);
+
+  return (
+    <Box>
+      <Button onClick={allBasketRequest}>Test classification</Button>
+
+      <Typography>{typeResponseData?.message}</Typography>
+      {typeResponseData?.baskets.map((value) => (
+        <Box key={value}>
+          <SelectBasket2 basketName={value} previousResponse={typePostData} />
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+// eslint-disable-next-line react/prop-types
+const SelectBasket2 = ({ basketName, previousResponse }) => {
+  const { status, responseData, postData } = usePostClient();
+
+  return (
+    <>
+      <Button
+        onClick={() => {
+          postData(
+            { ...previousResponse, selectedBasket: basketName },
+            BASE_URL + "/basket/"
+          );
+        }}
+      >
+        {basketName}
+      </Button>
+    </>
+  );
+};
