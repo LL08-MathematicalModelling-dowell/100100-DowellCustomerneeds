@@ -337,11 +337,13 @@ const AllBasket = () => {
 
   return (
     <Box>
-      <Button onClick={allBasketRequest}>Test classification</Button>
+      <Button variant="contained" color="primary" onClick={allBasketRequest}>
+        Test classification
+      </Button>
 
-      <Typography>{typeResponseData?.message}</Typography>
+      <Typography variant="h6" mt={2} gutterBottom>{typeResponseData?.message}</Typography>
       {typeResponseData?.baskets.map((value) => (
-        <Box key={value}>
+        <Box key={value} m={2}>
           <SelectBasket2 basketName={value} previousResponse={typePostData} />
         </Box>
       ))}
@@ -356,6 +358,9 @@ const SelectBasket2 = ({ basketName, previousResponse }) => {
   return (
     <>
       <Button
+        variant="contained"
+        color="primary"
+        sx={{ width: "100%", maxWidth: 250 }}
         onClick={() => {
           postData(
             { ...previousResponse, selectedBasket: basketName },
