@@ -241,7 +241,7 @@ const SelectBasket3 = ({ basketName, previousResponse, dbInsertedId }) => {
         </Typography>
         {typeResponseData?.baskets.map((value) => (
           <Box m={2} key={value}>
-            <SaveBasket
+            <SavePermutation
               basketName={value}
               previousResponse={typeResponseData}
               dbInsertedId={typeResponseData?.insertedId}
@@ -253,7 +253,7 @@ const SelectBasket3 = ({ basketName, previousResponse, dbInsertedId }) => {
   );
 };
 
-const SaveBasket = ({ basketName, previousResponse, dbInsertedId }) => {
+const SavePermutation = ({ basketName, previousResponse, dbInsertedId }) => {
   const { status, responseData, postData } = usePostClient();
   const {
     status: typeResponseStatus,
