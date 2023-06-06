@@ -192,10 +192,13 @@ const SelectBasket2 = ({ basketName, previousResponse, dbInsertedId }) => {
         </Button>
         <Typography variant="h6" mt={2} gutterBottom>
           {responseData?.message}
+          {responseData?.permutations && (
+            <pre>{JSON.stringify(responseData.permutations)}</pre>
+          )}
         </Typography>
         {typeResponseData?.baskets.map((value) => (
           <Box m={2} key={value}>
-            <SelectBasket3
+            <SavePermutation
               basketName={value}
               previousResponse={typeResponseData}
               dbInsertedId={typeResponseData?.insertedId}
@@ -207,8 +210,7 @@ const SelectBasket2 = ({ basketName, previousResponse, dbInsertedId }) => {
   );
 };
 
-// eslint-disable-next-line react/prop-types
-const SelectBasket3 = ({ basketName, previousResponse, dbInsertedId }) => {
+const SavePermutation = ({ permutations, previousResponse, dbInsertedId }) => {
   const { status, responseData, postData } = usePostClient();
   const {
     status: typeResponseStatus,
@@ -216,83 +218,24 @@ const SelectBasket3 = ({ basketName, previousResponse, dbInsertedId }) => {
     postData: typePostData,
   } = usePostClient();
 
+  useEffect(() => {
+    if (responseData == undefined) return;
+
+    if (status == Status.Success) {
+      const data = {
+        selectedPermutation: permutations,
+        dbInsertedId: responseData.dbInsertedId,
+      };
+      typePostData(data, BASE_URL + "/savepermutations/");
+    }
+  }, [status, responseData]);
+
+  useEffect(() => {
+    console.log(typeResponseData);
+  }, [typeResponseStatus, typeResponseData]);
   return (
     <>
-      <Box>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ width: "100%", maxWidth: 250 }}
-          onClick={() => {
-            postData(
-              {
-                selectedBasket: basketName,
-                insertedId: dbInsertedId,
-                baskets: previousResponse?.baskets,
-              },
-              BASE_URL + "/basket/"
-            );
-          }}
-        >
-          {basketName}
-        </Button>
-        <Typography variant="h6" mt={2} gutterBottom>
-          {responseData?.message}
-        </Typography>
-        {typeResponseData?.baskets.map((value) => (
-          <Box m={2} key={value}>
-            <SaveBasket
-              basketName={value}
-              previousResponse={typeResponseData}
-              dbInsertedId={typeResponseData?.insertedId}
-            />
-          </Box>
-        ))}
-      </Box>
+      
     </>
-  );
-};
-
-const SaveBasket = ({ basketName, previousResponse, dbInsertedId }) => {
-  const { status, responseData, postData } = usePostClient();
-  const {
-    status: typeResponseStatus,
-    responseData: typeResponseData,
-    postData: typePostData,
-  } = usePostClient();
-
-  return (
-    <>
-      <Box>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ width: "100%", maxWidth: 250 }}
-          onClick={() => {
-            postData(
-              {
-                insertedId: dbInsertedId,
-                baskets: previousResponse?.baskets,
-              },
-              BASE_URL + "/savepermutations/"
-            );
-          }}
-        >
-          {basketName}
-        </Button>
-        <Typography variant="h6" mt={2} gutterBottom>
-          {responseData?.message}
-        </Typography>
-        {typeResponseData?.baskets.map((value) => (
-          <Box m={2} key={value}>
-            <SaveBasket
-              basketName={value}
-              previousResponse={typeResponseData}
-              dbInsertedId={typeResponseData?.insertedId}
-            />
-          </Box>
-        ))}
-      </Box>
-    </>
-  );
+    );
 };
