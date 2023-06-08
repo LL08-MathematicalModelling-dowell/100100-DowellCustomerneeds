@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('connect.urls')),
     path('', include('services.urls')),
-    path('', include('csneeds.urls'))
+    path('', include('csneeds.urls')),
+    path('' , include('spreadsheet.urls'))
 ]
