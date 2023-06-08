@@ -109,11 +109,8 @@ const BASE_URL = "http://100061.pythonanywhere.com";
 
 const AllBasket = () => {
   const { status, responseData, postData } = usePostClient();
-  const {
-    status: typeResponseStatus,
-    responseData: typeResponseData,
-    postData: typePostData,
-  } = usePostClient();
+  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStepData, setCurrentStepData] = useState(undefined);
 
   const allBasketRequest = () => {
     postData(
@@ -122,53 +119,109 @@ const AllBasket = () => {
     );
   };
 
+  const sendTypeRequest = () => {
+    const data = {
+      numberOfLevels: 3,
+      classificationType: "N",
+      dbInsertedId: responseData.dbInsertedId,
+    };
+    postData(data, BASE_URL + "/type/");
+  };
+
   useEffect(() => {
     if (responseData == undefined) return;
 
-    if (status == Status.Success) {
-      const data = {
-        numberOfLevels: 3,
-        classificationType: "N",
-        dbInsertedId: responseData.dbInsertedId,
-      };
-      typePostData(data, BASE_URL + "/type/");
+    if (status == Status.Success && responseData !== undefined) {
+      console.log(currentStep, "-----");
+      setCurrentStepData(responseData);
+      setCurrentStep(currentStep + 1);
     }
   }, [status, responseData]);
 
-  useEffect(() => {
-    console.log(typeResponseData);
-  }, [typeResponseStatus, typeResponseData]);
-
   return (
     <Box>
-      <Button variant="contained" color="primary" onClick={allBasketRequest}>
-        Test classification
-      </Button>
-
-      <Typography variant="h6" mt={2} gutterBottom>
-        {typeResponseData?.message}
-      </Typography>
-      {typeResponseData?.baskets.map((value) => (
-        <Box m={2} key={value}>
-          <SelectBasket2
-            basketName={value}
-            previousResponse={typeResponseData}
-            dbInsertedId={typeResponseData?.insertedId}
-          />
+      {currentStep == 0 && (
+        <Button variant="contained" color="primary" onClick={allBasketRequest}>
+          Test classification
+        </Button>
+      )}
+      {currentStep == 1 && (
+        <Box>
+          <Typography> numberOfLevels: 3, classificationType: N</Typography>
+          <Button onClick={sendTypeRequest}>
+            Continue with classification type
+          </Button>
         </Box>
-      ))}
+      )}
+
+      {currentStep == 2 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          {currentStepData?.baskets?.map((value) => (
+            <Box m={2} key={value}>
+              <SelectBasket2
+                basketName={value}
+                previousResponse={currentStepData}
+                dbInsertedId={currentStepData?.insertedId}
+                onBasket1SelectComplete={(rd) => {
+                  setCurrentStepData(rd);
+                  setCurrentStep(currentStep + 1);
+                }}
+              />
+            </Box>
+          ))}
+        </>
+      )}
+
+      {currentStep == 3 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          {currentStepData?.baskets?.map((value) => (
+            <Box m={2} key={value}>
+              <SelectBasket2
+                basketName={value}
+                previousResponse={currentStepData}
+                dbInsertedId={currentStepData?.insertedId}
+                onBasket1SelectComplete={(rd) => {
+                  console.log("rd", rd, currentStep);
+                  setCurrentStepData(rd);
+                  setCurrentStep(currentStep + 1);
+                }}
+              />
+            </Box>
+          ))}
+        </>
+      )}
     </Box>
   );
 };
 
 // eslint-disable-next-line react/prop-types
-const SelectBasket2 = ({ basketName, previousResponse, dbInsertedId }) => {
+const SelectBasket2 = ({
+  basketName,
+  previousResponse,
+  dbInsertedId,
+  onBasket1SelectComplete,
+}) => {
   const { status, responseData, postData } = usePostClient();
-  const {
-    status: typeResponseStatus,
-    responseData: typeResponseData,
-    postData: typePostData,
-  } = usePostClient();
+  // const {
+  //   status: typeResponseStatus,
+  //   responseData: typeResponseData,
+  //   postData: typePostData,
+  // } = usePostClient();
+
+  useEffect(() => {
+    if (status === Status.Success && responseData !== undefined) {
+      console.log("rrr", responseData);
+      onBasket1SelectComplete(responseData);
+    }
+  }, [status, responseData]);
 
   return (
     <>
@@ -190,13 +243,13 @@ const SelectBasket2 = ({ basketName, previousResponse, dbInsertedId }) => {
         >
           {basketName}
         </Button>
-        <Typography variant="h6" mt={2} gutterBottom>
+        {/* <Typography variant="h6" mt={2} gutterBottom>
           {responseData?.message}
           {responseData?.permutations && (
             <pre>{JSON.stringify(responseData.permutations)}</pre>
           )}
-        </Typography>
-        {typeResponseData?.baskets.map((value) => (
+        </Typography> */}
+        {/* {typeResponseData?.baskets.map((value) => (
           <Box m={2} key={value}>
             <SavePermutation
               basketName={value}
@@ -204,7 +257,7 @@ const SelectBasket2 = ({ basketName, previousResponse, dbInsertedId }) => {
               dbInsertedId={typeResponseData?.insertedId}
             />
           </Box>
-        ))}
+        ))} */}
       </Box>
     </>
   );
@@ -233,9 +286,5 @@ const SavePermutation = ({ permutations, previousResponse, dbInsertedId }) => {
   useEffect(() => {
     console.log(typeResponseData);
   }, [typeResponseStatus, typeResponseData]);
-  return (
-    <>
-      
-    </>
-    );
+  return <></>;
 };
