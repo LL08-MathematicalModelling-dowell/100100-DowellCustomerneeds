@@ -4,6 +4,9 @@ import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
 import { usePostClient } from "../client/postClient";
 import { Status } from "../client/status";
+import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
+import { SavePermutation } from "./SavePermutation";
+import { SelectBasket2 } from "./SelectBasket2";
 
 export const DwellClassic = () => {
   return (
@@ -105,7 +108,7 @@ const classificationData = {
   ],
 };
 
-const BASE_URL = "http://100061.pythonanywhere.com";
+export const BASE_URL = "http://100061.pythonanywhere.com";
 
 const AllBasket = () => {
   const { status, responseData, postData } = usePostClient();
@@ -132,7 +135,6 @@ const AllBasket = () => {
     if (responseData == undefined) return;
 
     if (status == Status.Success && responseData !== undefined) {
-      console.log(currentStep, "-----");
       setCurrentStepData(responseData);
       setCurrentStep(currentStep + 1);
     }
@@ -189,6 +191,46 @@ const AllBasket = () => {
                 previousResponse={currentStepData}
                 dbInsertedId={currentStepData?.insertedId}
                 onBasket1SelectComplete={(rd) => {
+                  console.log("rd", rd.permutations, currentStep);
+                  setCurrentStepData(rd);
+                  setCurrentStep(currentStep + 1);
+                }}
+              />
+            </Box>
+          ))}
+        </>
+      )}
+
+      {currentStep == 4 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SavePermutation
+            insertedId={currentStepData?.insertedId}
+            permutations={currentStepData?.permutations}
+            onSavePermutationComplete={(message) => {
+              setCurrentStep(currentStep + 1);
+              alert(message);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 5 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            Select a basket
+          </Typography>
+
+          {currentStepData?.baskets?.map((value) => (
+            <Box m={2} key={value}>
+              <SelectBasket2
+                basketName={value}
+                previousResponse={currentStepData}
+                dbInsertedId={currentStepData?.insertedId}
+                onBasket1SelectComplete={(rd) => {
                   console.log("rd", rd, currentStep);
                   setCurrentStepData(rd);
                   setCurrentStep(currentStep + 1);
@@ -198,93 +240,194 @@ const AllBasket = () => {
           ))}
         </>
       )}
+
+      {currentStep == 6 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SavePermutation
+            insertedId={currentStepData?.insertedId}
+            permutations={currentStepData?.permutations}
+            onSavePermutationComplete={(message) => {
+              alert(message);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 7 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            Save Final Basket Order
+          </Typography>
+
+          <SaveFinalBasketOrder
+            dbInsertedId={currentStepData?.insertedId}
+            onComplete={(rd) => {
+              setCurrentStepData(rd);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 8 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SelectItem
+            items={currentStepData?.items}
+            basket={currentStepData.basket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 9 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.currentBasketItems}
+            basket={currentStepData?.currentBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Typography>{currentStepData?.nextBasket} basket items</Typography>
+          <SelectItem
+            items={currentStepData?.nextBasketItems}
+            basket={currentStepData?.nextBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 10 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SavePermutation
+            insertedId={currentStepData?.insertedId}
+            permutations={currentStepData?.permutations}
+            onSavePermutationComplete={(message) => {
+              alert(message);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
+        </>
+      )}
+
+      {currentStep == 11 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.currentBasketItems}
+            basket={currentStepData.currentBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Typography>{currentStepData?.nextBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.nextBasketItems}
+            basket={currentStepData?.nextBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
     </Box>
   );
 };
 
-// eslint-disable-next-line react/prop-types
-const SelectBasket2 = ({
-  basketName,
-  previousResponse,
-  dbInsertedId,
-  onBasket1SelectComplete,
-}) => {
+const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
   const { status, responseData, postData } = usePostClient();
-  // const {
-  //   status: typeResponseStatus,
-  //   responseData: typeResponseData,
-  //   postData: typePostData,
-  // } = usePostClient();
 
   useEffect(() => {
     if (status === Status.Success && responseData !== undefined) {
-      console.log("rrr", responseData);
-      onBasket1SelectComplete(responseData);
+      onCompleteItemSelect(responseData);
     }
   }, [status, responseData]);
 
   return (
     <>
       <Box>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ width: "100%", maxWidth: 250 }}
-          onClick={() => {
-            postData(
-              {
-                selectedBasket: basketName,
-                insertedId: dbInsertedId,
-                baskets: previousResponse?.baskets,
-              },
-              BASE_URL + "/basket/"
-            );
-          }}
-        >
-          {basketName}
-        </Button>
-        {/* <Typography variant="h6" mt={2} gutterBottom>
-          {responseData?.message}
-          {responseData?.permutations && (
-            <pre>{JSON.stringify(responseData.permutations)}</pre>
-          )}
-        </Typography> */}
-        {/* {typeResponseData?.baskets.map((value) => (
-          <Box m={2} key={value}>
-            <SavePermutation
-              basketName={value}
-              previousResponse={typeResponseData}
-              dbInsertedId={typeResponseData?.insertedId}
-            />
-          </Box>
-        ))} */}
+        {items?.map((item) => (
+          <Button
+            key={item}
+            variant="contained"
+            color="primary"
+            sx={{ width: "100%", maxWidth: 250 }}
+            onClick={() => {
+              postData(
+                {
+                  selectedItem: item,
+                  basket: basket,
+                  insertedId: insertedId,
+                  status: true,
+                },
+                BASE_URL + "/item/"
+              );
+            }}
+          >
+            {item}
+          </Button>
+        ))}
       </Box>
     </>
   );
-};
-
-const SavePermutation = ({ permutations, previousResponse, dbInsertedId }) => {
-  const { status, responseData, postData } = usePostClient();
-  const {
-    status: typeResponseStatus,
-    responseData: typeResponseData,
-    postData: typePostData,
-  } = usePostClient();
-
-  useEffect(() => {
-    if (responseData == undefined) return;
-
-    if (status == Status.Success) {
-      const data = {
-        selectedPermutation: permutations,
-        dbInsertedId: responseData.dbInsertedId,
-      };
-      typePostData(data, BASE_URL + "/savepermutations/");
-    }
-  }, [status, responseData]);
-
-  useEffect(() => {
-    console.log(typeResponseData);
-  }, [typeResponseStatus, typeResponseData]);
-  return <></>;
 };
