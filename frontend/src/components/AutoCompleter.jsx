@@ -9,6 +9,7 @@ import { Status } from "../client/status";
 import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
 import { SavePermutation } from "./SavePermutation";
 import { SelectBasket2 } from "./SelectBasket2";
+import { Pending } from "@mui/icons-material";
 
 export default function AutoCompleter() {
   const [q1Data, setQ1Data] = useState([]);
@@ -285,6 +286,7 @@ const AllBasket = ({ submitBtnClicked }) => {
   const [currentStepData, setCurrentStepData] = useState(undefined);
   const isLoading = status == Status.Pending;
 
+
   const allBasketRequest = () => {
     postData(
       classificationData,
@@ -321,8 +323,13 @@ const AllBasket = ({ submitBtnClicked }) => {
   return (
     <Box>
       {currentStep == 0 && (
-        <Button variant="contained" color="primary" onClick={allBasketRequest}>
-          Test classification
+        <Button onClick={allBasketRequest} disabled={isLoading}>
+        {isLoading ? (
+          <CircularProgress size={24} />
+        ) : (
+          ""
+        )}
+          
         </Button>
       )}
       {currentStep == 1 && (
@@ -372,7 +379,7 @@ const AllBasket = ({ submitBtnClicked }) => {
           </Typography>
 
           {currentStepData?.baskets?.map((value) => (
-            <Box m={2} key={value}>
+            <Box m={2} key={value}>                        
               <SelectBasket2
                 basketName={value}
                 previousResponse={currentStepData}
@@ -583,14 +590,12 @@ const AllBasket = ({ submitBtnClicked }) => {
 
 const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
   const { status, responseData, postData } = usePostClient();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
     if (status === Status.Success && responseData !== undefined) {
       onCompleteItemSelect(responseData);
     }
-    setIsLoading(false);
+    
   }, [status, responseData]);
 
   return (
@@ -601,8 +606,8 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
             key={item}
             variant="contained"
             color="primary"
-            sx={{ width: "100%", maxWidth: 250 }}
             disabled={isLoading}
+            sx={{ width: "100%", maxWidth: 250 }}
             onClick={() => {
               postData(
                 {
@@ -615,7 +620,12 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
               );
             }}
           >
-            {isLoading ? <CircularProgress size={24} /> : item}
+          {isLoading ? (
+            <CircularProgress size={24} />
+          ) : (
+            "{item}"
+          )}
+            
           </Button>
         ))}
       </Box>

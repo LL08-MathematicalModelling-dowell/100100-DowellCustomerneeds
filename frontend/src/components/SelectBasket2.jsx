@@ -27,6 +27,7 @@ export const SelectBasket2 = ({
         <Button
           variant="contained"
           color="primary"
+          disabled={isLoading}
           sx={{ width: "100%", maxWidth: 250 }}
           onClick={() => {
             postData(

@@ -10,7 +10,6 @@ export const SavePermutation = ({
   onSavePermutationComplete,
 }) => {
   const { status, responseData, postData } = usePostClient();
-  const [isLoading, setIsLoading] = useState(false);
 
 
 

@@ -407,11 +407,9 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
 
 
   useEffect(() => {
-    setIsLoading(true)
     if (status === Status.Success && responseData !== undefined) {
       onCompleteItemSelect(responseData);
     }
-    setIsLoading(false)
   }, [status, responseData]);
 
   return (
@@ -423,7 +421,6 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
             variant="contained"
             color="primary"
             sx={{ width: "100%", maxWidth: 250 }}
-            disabled={isLoading}
             onClick={() => {
               postData(
                 {
@@ -436,7 +433,7 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
               );
             }}
           >
-          {isLoading ? <CircularProgress size={24}/> : item}
+          {item}
             
           </Button>
         ))}
