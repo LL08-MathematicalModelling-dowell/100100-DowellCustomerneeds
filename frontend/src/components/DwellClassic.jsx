@@ -390,6 +390,197 @@ const AllBasket = () => {
           />
         </>
       )}
+
+      {currentStep == 12 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.currentBasketItems}
+            basket={currentStepData.currentBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Typography>{currentStepData?.nextBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.nextBasketItems}
+            basket={currentStepData?.nextBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 13 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SavePermutation
+            insertedId={currentStepData?.insertedId}
+            permutations={currentStepData?.permutations}
+            onSavePermutationComplete={(message) => {
+              alert(message);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
+        </>
+      )}
+
+      {currentStep == 14 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.currentBasketItems}
+            basket={currentStepData.currentBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Typography>{currentStepData?.nextBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.nextBasketItems}
+            basket={currentStepData?.nextBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 15 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <SavePermutation
+            insertedId={currentStepData?.insertedId}
+            permutations={currentStepData?.permutations}
+            onSavePermutationComplete={(message) => {
+              alert(message);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
+        </>
+      )}
+
+      {currentStep == 16 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.currentBasketItems}
+            basket={currentStepData.currentBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+
+          <Typography>{currentStepData?.nextBasket} items</Typography>
+          <SelectItem
+            items={currentStepData?.nextBasketItems}
+            basket={currentStepData?.nextBasket}
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              setCurrentStepData({
+                ...rd,
+                insertedId: currentStepData?.insertedId,
+              });
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 17 && (
+        <>
+          <Typography variant="h6" mt={2} gutterBottom>
+            {currentStepData?.message}
+          </Typography>
+
+          <Typography>{currentStepData?.currentBasket} items</Typography>
+          <FinalizeSelectedItem
+            insertedId={currentStepData?.insertedId}
+            onCompleteItemSelect={(rd) => {
+              alert(rd?.message);
+              setCurrentStep(currentStep + 1);
+            }}
+          />
+        </>
+      )}
+
+      {currentStep == 18 && (
+        <ClassificationResult
+          insertedId={currentStepData?.insertedId}
+          onCompleteItemSelect={(rd) => {
+            console.log(rd);
+            setCurrentStepData({
+              ...rd,
+              insertedId: currentStepData?.insertedId,
+            });
+            setCurrentStep(currentStep + 1);
+          }}
+        />
+      )}
+
+      {currentStep == 19 && (
+        <DisplayClassificationResult results={currentStepData?.finalOutput} />
+      )}
     </Box>
   );
 };
@@ -429,5 +620,84 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
         ))}
       </Box>
     </>
+  );
+};
+
+const FinalizeSelectedItem = ({ insertedId, onCompleteItemSelect }) => {
+  const { status, responseData, postData } = usePostClient();
+
+  useEffect(() => {
+    if (status === Status.Success && responseData !== undefined) {
+      onCompleteItemSelect(responseData);
+    }
+  }, [status, responseData]);
+
+  return (
+    <>
+      <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ width: "100%", maxWidth: 250 }}
+          onClick={() => {
+            postData(
+              {
+                selectedItem: "",
+                basket: "",
+                insertedId: insertedId,
+                status: false,
+              },
+              BASE_URL + "/item/"
+            );
+          }}
+        >
+          Finalize
+        </Button>
+      </Box>
+    </>
+  );
+};
+
+const ClassificationResult = ({ insertedId, onCompleteItemSelect }) => {
+  const { status, responseData, postData } = usePostClient();
+
+  useEffect(() => {
+    if (status === Status.Success && responseData !== undefined) {
+      onCompleteItemSelect(responseData);
+    }
+  }, [status, responseData]);
+
+  return (
+    <>
+      <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ width: "100%", maxWidth: 250 }}
+          onClick={() => {
+            postData(
+              {
+                insertedId: insertedId,
+              },
+              BASE_URL + "/function/"
+            );
+          }}
+        >
+          Final output
+        </Button>
+      </Box>
+    </>
+  );
+};
+
+const DisplayClassificationResult = (results) => {
+  return (
+    <Box>
+      {results.map((value, index) => (
+        <Button key={index}>
+          {value[0]} - {value[1]}
+        </Button>
+      ))}
+    </Box>
   );
 };
