@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
 import { usePostClient } from "../client/postClient";
 import { Status } from "../client/status";
 import { BASE_URL } from "./DwellClassic";
@@ -32,13 +32,14 @@ export const SavePermutation = ({
     <>
       {permutations?.map((permutation, index) => {
         return (
-          <Button
+          <LoadingButton
+            loading={status==Status.Pending}
             variant="contained"
             onClick={() => savePermutation(permutation)}
             key={index}
           >
             {permutation.map((item) => item + ", ")}
-          </Button>
+          </LoadingButton>
         );
       })}
     </>

@@ -7,6 +7,7 @@ import { Status } from "../client/status";
 import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
 import { SavePermutation } from "./SavePermutation";
 import { SelectBasket2 } from "./SelectBasket2";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export const DwellClassic = () => {
   return (
@@ -143,16 +144,18 @@ const AllBasket = () => {
   return (
     <Box>
       {currentStep == 0 && (
-        <Button variant="contained" color="primary" onClick={allBasketRequest}>
+        <LoadingButton loading={status==Status.Pending}
+         variant="contained"
+         onClick={allBasketRequest}>
           Test classification
-        </Button>
+        </LoadingButton>
       )}
       {currentStep == 1 && (
         <Box>
           <Typography> numberOfLevels: 3, classificationType: N</Typography>
-          <Button onClick={sendTypeRequest}>
+          <LoadingButton onClick={sendTypeRequest}>
             Continue with classification type
-          </Button>
+          </LoadingButton>
         </Box>
       )}
 
@@ -626,7 +629,8 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
     <>
       <Box>
         {items?.map((item) => (
-          <Button
+          <LoadingButton 
+           loading={status==Status.Pending}
             key={item}
             variant="contained"
             color="primary"
@@ -644,7 +648,7 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
             }}
           >
             {item}
-          </Button>
+          </LoadingButton>
         ))}
       </Box>
     </>
@@ -663,7 +667,8 @@ const FinalizeSelectedItem = ({ insertedId, onCompleteItemSelect }) => {
   return (
     <>
       <Box>
-        <Button
+        <LoadingButton
+        loading={status==Status.Pending}
           variant="contained"
           color="primary"
           sx={{ width: "100%", maxWidth: 250 }}
@@ -680,7 +685,7 @@ const FinalizeSelectedItem = ({ insertedId, onCompleteItemSelect }) => {
           }}
         >
           Finalize
-        </Button>
+        </LoadingButton>
       </Box>
     </>
   );
@@ -698,7 +703,8 @@ const ClassificationResult = ({ insertedId, onCompleteItemSelect }) => {
   return (
     <>
       <Box>
-        <Button
+        <LoadingButton
+        loading={status==Status.Pending}
           variant="contained"
           color="primary"
           sx={{ width: "100%", maxWidth: 250 }}
@@ -712,20 +718,23 @@ const ClassificationResult = ({ insertedId, onCompleteItemSelect }) => {
           }}
         >
           Final output
-        </Button>
+        </LoadingButton>
       </Box>
     </>
   );
 };
 
 const DisplayClassificationResult = (results) => {
+  const { status, responseData, postData } = usePostClient();
   console.log(results);
+
   return (
     <Box>
       {results.map((value, index) => (
-        <Button key={index}>
+        <LoadingButton loading={status==Status.Pending}
+         key={index}>
           {value[0]} - {value[1]}
-        </Button>
+        </LoadingButton>
       ))}
     </Box>
   );
