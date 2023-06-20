@@ -388,6 +388,13 @@ const AllBasket = () => {
               setCurrentStep(currentStep + 1);
             }}
           />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
         </>
       )}
 
@@ -424,6 +431,13 @@ const AllBasket = () => {
               setCurrentStep(currentStep + 1);
             }}
           />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
         </>
       )}
 
@@ -484,6 +498,13 @@ const AllBasket = () => {
               setCurrentStep(currentStep + 1);
             }}
           />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
         </>
       )}
 
@@ -544,6 +565,13 @@ const AllBasket = () => {
               setCurrentStep(currentStep + 1);
             }}
           />
+
+          <Button
+            onClick={() => setCurrentStep(currentStep + 1)}
+            variant="outlined"
+          >
+            Next
+          </Button>
         </>
       )}
 
@@ -691,6 +719,7 @@ const ClassificationResult = ({ insertedId, onCompleteItemSelect }) => {
 };
 
 const DisplayClassificationResult = (results) => {
+  console.log(results);
   return (
     <Box>
       {results.map((value, index) => (
