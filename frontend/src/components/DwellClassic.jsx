@@ -7,6 +7,7 @@ import { Status } from "../client/status";
 import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
 import { SavePermutation } from "./SavePermutation";
 import { SelectBasket2 } from "./SelectBasket2";
+import { LoadingButton } from "@mui/lab";
 
 export const DwellClassic = () => {
   return (
@@ -149,9 +150,9 @@ const AllBasket = () => {
   return (
     <Box>
       {currentStep == 0 && (
-        <Button variant="contained" color="primary" onClick={allBasketRequest}>
+        <LoadingButton status={Status.Pending} variant="contained" color="primary" onClick={allBasketRequest}>
         Test classification
-        </Button>
+        </LoadingButton>
       )}
       {currentStep == 1 && (
         <Box>
@@ -416,7 +417,7 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
     <>
       <Box>
         {items?.map((item) => (
-          <Button
+          <LoadingButton Status
             key={item}
             variant="contained"
             color="primary"
@@ -435,7 +436,7 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
           >
           {item}
             
-          </Button>
+          </LoadingButton>
         ))}
       </Box>
     </>

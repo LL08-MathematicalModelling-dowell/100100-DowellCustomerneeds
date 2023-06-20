@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
 import { usePostClient } from "../client/postClient";
 import { Status } from "../client/status";
 import { BASE_URL } from "./DwellClassic";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export const SaveFinalBasketOrder = ({ dbInsertedId, onComplete }) => {
   const { status, responseData, postData } = usePostClient();
-  const [isLoading, setIsLoading] = useState(false);
-
-
 
   useEffect(() => {
-    setIsLoading(true)
     if (status === Status.Success && responseData !== undefined) {
       onComplete(responseData);
     }
-    setIsLoading(false)
   }, [status, responseData]);
 
   return (
     <>
       <Box>
-        <Button
+        <LoadingButton
+          loading={status == Status.Pending}
           variant="contained"
           color="primary"
           sx={{ width: "100%", maxWidth: 250 }}
@@ -38,7 +34,7 @@ export const SaveFinalBasketOrder = ({ dbInsertedId, onComplete }) => {
           }}
         >
           Continue
-        </Button>
+        </LoadingButton>
       </Box>
     </>
   );

@@ -9,8 +9,7 @@ function App() {
   return (
     <>
     <NavBar/>
-    <AutoCompleter/>  
-      
+   <AutoCompleter/>
     </>
   );
 }

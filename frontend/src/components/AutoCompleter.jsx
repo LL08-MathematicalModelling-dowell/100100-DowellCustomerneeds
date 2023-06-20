@@ -9,7 +9,7 @@ import { Status } from "../client/status";
 import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
 import { SavePermutation } from "./SavePermutation";
 import { SelectBasket2 } from "./SelectBasket2";
-import { Pending } from "@mui/icons-material";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AutoCompleter() {
   const [q1Data, setQ1Data] = useState([]);
@@ -284,7 +284,6 @@ const AllBasket = ({ submitBtnClicked }) => {
   const { status, responseData, postData } = usePostClient();
   const [currentStep, setCurrentStep] = useState(0);
   const [currentStepData, setCurrentStepData] = useState(undefined);
-  const isLoading = status == Status.Pending;
 
 
   const allBasketRequest = () => {
@@ -310,43 +309,34 @@ const AllBasket = ({ submitBtnClicked }) => {
   }, [submitBtnClicked]);
 
   useEffect(() => {
-    // setIsLoading(true);
     if (responseData == undefined) return;
 
     if (status == Status.Success && responseData !== undefined) {
       setCurrentStepData(responseData);
       setCurrentStep(currentStep + 1);
     }
-    // setIsLoading(false)
   }, [status, responseData]);
 
   return (
     <Box>
       {currentStep == 0 && (
-        <Button onClick={allBasketRequest} disabled={isLoading}>
-        {isLoading ? (
-          <CircularProgress size={24} />
-        ) : (
-          ""
-        )}
-          
-        </Button>
+        <LoadingButton 
+        loading={status==Status.Pending}
+        onClick={allBasketRequest}>
+                  
+        </LoadingButton>
       )}
       {currentStep == 1 && (
         <Box>
           <Typography> numberOfLevels: 3, classificationType: N</Typography>
-          <Button
+          <LoadingButton
+          loading={status==Status.Pending}
             variant="contained"
             color="primary"
-            disabled={isLoading}
             onClick={sendTypeRequest}
           >
-            {isLoading ? (
-              <CircularProgress size={24} />
-            ) : (
-              "Continue with classification type"
-            )}
-          </Button>
+          Continue with classification type
+          </LoadingButton>
         </Box>
       )}
 
@@ -602,11 +592,11 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
     <>
       <Box>
         {items?.map((item) => (
-          <Button
+          <LoadingButton
+            loading={status==Status.Pending}
             key={item}
             variant="contained"
             color="primary"
-            disabled={isLoading}
             sx={{ width: "100%", maxWidth: 250 }}
             onClick={() => {
               postData(
@@ -620,13 +610,9 @@ const SelectItem = ({ items, basket, insertedId, onCompleteItemSelect }) => {
               );
             }}
           >
-          {isLoading ? (
-            <CircularProgress size={24} />
-          ) : (
-            "{item}"
-          )}
+          {item}
             
-          </Button>
+          </LoadingButton>
         ))}
       </Box>
     </>
