@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { usePostClient } from "../client/postClient";
-import { Status } from "../client/status";
+import { usePostClient} from "../../client/postClient"
+import { Status } from "../../client/status";
 import { BASE_URL } from "./AllBasket";
 
 export const FinalizeSelectedItem = ({ insertedId, onCompleteItemSelect }) => {

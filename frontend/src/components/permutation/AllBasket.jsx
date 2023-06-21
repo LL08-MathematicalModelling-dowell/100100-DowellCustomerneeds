@@ -3,8 +3,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Box from "@mui/material/Box";
 import { Button, Typography } from "@mui/material";
 
-import { usePostClient } from "../client/postClient";
-import { Status } from "../client/status";
+import { usePostClient} from "../../client/postClient"
+import { Status } from "../../client/status";
 import { SaveFinalBasketOrder } from "./SaveFinalBasketOrder";
 import { SavePermutation } from "./SavePermutation";
 import { SelectBasket2 } from "./SelectBasket2";
@@ -12,7 +12,7 @@ import { SelectItem } from "./SelectItem";
 import { FinalizeSelectedItem } from "./FinalizeSelectedItem";
 import { ClassificationResult } from "./ClassificationResult";
 import { DisplayClassificationResult } from "./DisplayClassificationResult";
-import { classificationData } from "../data/classificationData"
+import { classificationData } from "../../data/classificationData"
 
 export const BASE_URL = "http://100061.pythonanywhere.com";
 
