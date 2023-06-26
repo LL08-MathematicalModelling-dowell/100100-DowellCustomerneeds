@@ -1,12 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
-import { Button, CircularProgress} from "@mui/material";
-import {AllBasket} from "./permutation/AllBasket"
-
-
+import { Button, CircularProgress } from "@mui/material";
+import { AllBasket } from "./permutation/AllBasket";
 
 export default function AutoCompleter() {
   const [q1Data, setQ1Data] = useState([]);
@@ -65,11 +63,36 @@ export default function AutoCompleter() {
     e.preventDefault();
     setSubmitBtnClicked(true);
 
-    const payload = {
-      q1: selectedQ1Data?.Item || "",
-      q2: selectedQ2Data?.Item || "",
-      q3: selectedQ3Data?.Item || "",
-    };
+    const payload = {};
+
+    if (selectedQ1Data && selectedQ1Data.Item) {
+      payload[selectedQ1Data.Item] =
+        selectedQ1Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    if (selectedQ2Data && selectedQ2Data.Item) {
+      payload[selectedQ2Data.Item] =
+        selectedQ2Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    if (selectedQ3Data && selectedQ3Data.Item) {
+      payload[selectedQ3Data.Item] =
+        selectedQ3Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    // Remove q1, q2, and q3 keys
+    const { q1, q2, q3, ...cleanedData } = payload;
+
+    console.log(cleanedData);
 
     setLoading(true); // set loading to true when API request is initiated
     fetch("http://127.0.0.1:8000/api/services/", {
@@ -197,16 +220,3 @@ export default function AutoCompleter() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
