@@ -3,18 +3,14 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import AutoCompleter from "./components/AutoCompleter";
 
-
-
 function App() {
  
   return (
     <>
     <NavBar/>
-    <AutoCompleter/>
-      
+    <AutoCompleter/>  
     </>
   );
 }
-
 
 export default App;
