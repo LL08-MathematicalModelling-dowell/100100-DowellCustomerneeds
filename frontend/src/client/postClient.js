@@ -9,7 +9,9 @@ export const usePostClient = () => {
     status: status,
     responseData: responseData,
     postData: async (data, url) => {
+      setResponseData(undefined);
       setStatus(Status.Pending);
+
       const response = await fetch(url, {
         method: "post",
         headers: {

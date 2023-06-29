@@ -1,18 +1,14 @@
 import React from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-// import AutoCompleter from "./components/AutoCompleter";
-import {DwellClassic} from "./components/DwellClassic";
-import {SpreadSheet} from "./components/SpreadSheet";
+import AutoCompleter from "./components/AutoCompleter";
 
 
 function App() {
- 
   return (
     <>
     <NavBar/>
-    <DwellClassic/>
-    <SpreadSheet/>
+    <AutoCompleter/>  
     </>
   );
 }
