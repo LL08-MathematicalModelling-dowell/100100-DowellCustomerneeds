@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import { Button, CircularProgress } from "@mui/material";
+import { AllBasket } from "./permutation/AllBasket";
 
 export default function AutoCompleter() {
   const [q1Data, setQ1Data] = useState([]);
@@ -16,19 +17,8 @@ export default function AutoCompleter() {
   const [loading, setLoading] = useState(false);
   const isSubmitDisabled =
     !selectedQ1Data || !selectedQ2Data || !selectedQ3Data;
-  const [progress, setProgress] = React.useState(0);
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 0 : prevProgress + 50
-      );
-    }, 800);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const [submitBtnClicked, setSubmitBtnClicked] = useState(false);
 
   useEffect(() => {
     setLoading(true); // set loading to true when the fetch request is initiated
@@ -71,12 +61,38 @@ export default function AutoCompleter() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setSubmitBtnClicked(true);
 
-    const payload = {
-      q1: selectedQ1Data?.Item || "",
-      q2: selectedQ2Data?.Item || "",
-      q3: selectedQ3Data?.Item || "",
-    };
+    const payload = {};
+
+    if (selectedQ1Data && selectedQ1Data.Item) {
+      payload[selectedQ1Data.Item] =
+        selectedQ1Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    if (selectedQ2Data && selectedQ2Data.Item) {
+      payload[selectedQ2Data.Item] =
+        selectedQ2Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    if (selectedQ3Data && selectedQ3Data.Item) {
+      payload[selectedQ3Data.Item] =
+        selectedQ3Data.tags?.map((tag) => ({
+          item: tag,
+          itemLink: "",
+        })) || [];
+    }
+
+    // Remove q1, q2, and q3 keys
+    const { q1, q2, q3, ...cleanedData } = payload;
+
+    console.log(cleanedData);
 
     setLoading(true); // set loading to true when API request is initiated
     fetch("http://127.0.0.1:8000/api/services/", {
@@ -96,12 +112,15 @@ export default function AutoCompleter() {
       .catch((error) => {
         setLoading(false); // set loading back to false when an error occurs
         console.error("Error posting data:", error);
+      })
+      .finally(() => {
+        setSubmitBtnClicked(false);
       });
   };
 
   return (
     <>
-      <Card sx={{ minWidth: 400, maxWidth: 1200, m: 8 }} elevation={11}>
+      <Card sx={{ minWidth: 400, maxWidth: 1200, m: 8 }}>
         <Box
           component="form"
           onSubmit={handleFormSubmit}
@@ -128,12 +147,7 @@ export default function AutoCompleter() {
                 {...params}
                 label={
                   loading ? (
-                    <CircularProgress
-                      size={24}
-                      variant="determinate"
-                      value={progress}
-                      color="primary"
-                    />
+                    <CircularProgress size={24} color="primary" />
                   ) : (
                     "I am from"
                   )
@@ -155,12 +169,7 @@ export default function AutoCompleter() {
                 {...params}
                 label={
                   loading ? (
-                    <CircularProgress
-                      size={24}
-                      variant="determinate"
-                      value={progress}
-                      color="primary"
-                    />
+                    <CircularProgress size={24} color="primary" />
                   ) : (
                     "How to"
                   )
@@ -182,12 +191,7 @@ export default function AutoCompleter() {
                 {...params}
                 label={
                   loading ? (
-                    <CircularProgress
-                      size={24}
-                      variant="determinate"
-                      value={progress}
-                      color="primary"
-                    />
+                    <CircularProgress size={24} color="primary" />
                   ) : (
                     "For"
                   )
@@ -205,16 +209,12 @@ export default function AutoCompleter() {
             sx={{ width: "100%", maxWidth: 250 }}
           >
             {loading ? (
-              <CircularProgress
-                size={24}
-                variant="determinate"
-                value={progress}
-                color="primary"
-              />
+              <CircularProgress size={24} color="primary" />
             ) : (
               "Submit"
             )}
           </Button>
+          <AllBasket submitBtnClicked={submitBtnClicked} />
         </Box>
       </Card>
     </>
