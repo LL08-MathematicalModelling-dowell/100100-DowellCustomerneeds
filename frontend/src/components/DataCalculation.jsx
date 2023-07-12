@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { styled } from '@mui/material/styles';
+import LoadingButton from "@mui/lab/LoadingButton";
+import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -13,7 +14,7 @@ import {
   TableRow,
   TableBody,
 } from "@mui/material";
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -26,11 +27,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
+  "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
   // hide last border
-  '&:last-child td, &:last-child th': {
+  "&:last-child td, &:last-child th": {
     border: 0,
   },
 }));
@@ -45,6 +46,7 @@ export default function DataCalculation() {
   const [selectedQ3Data, setSelectedQ3Data] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [loadingSpread, setLoadingSpread] = useState(false);
   const isSubmitDisabled =
     !selectedQ1Data || !selectedQ2Data || !selectedQ3Data;
 
@@ -88,6 +90,7 @@ export default function DataCalculation() {
   }, []);
 
   const callSheetData = () => {
+    setLoadingSpread(true);
     fetch("http://127.0.0.1:8000/api/spreadsheet/", {
       method: "POST",
       headers: {
@@ -102,15 +105,19 @@ export default function DataCalculation() {
       .then((response) => response.json())
       .then((data) => {
         setSpreadData(data);
+        setLoadingSpread(false);
       })
       .catch((error) => {
-        console.error("Error fetching spreadsheet data:", error);
+        alert(
+          "Error fetching spreadsheet data : No data found for the selected questions"
+        );
+        setLoadingSpread(false);
       });
   };
 
   return (
     <>
-      <Card sx={{ minWidth: 250, maxWidth: 1200,}}>
+      <Card sx={{ minWidth: 250, maxWidth: 1200 }}>
         <Box
           component="form"
           m={1}
@@ -190,11 +197,13 @@ export default function DataCalculation() {
             )}
           />
 
-          <Button
+          <LoadingButton
+            loading={loadingSpread}
             variant="contained"
             color="info"
             onClick={(event) => {
               callSheetData();
+              handleFormSubmit(event);
             }}
             disabled={isSubmitDisabled}
             sx={{ width: "100%", maxWidth: 250 }}
@@ -204,7 +213,7 @@ export default function DataCalculation() {
             ) : (
               "Calculate"
             )}
-          </Button>
+          </LoadingButton>
         </Box>
 
         <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
@@ -214,20 +223,31 @@ export default function DataCalculation() {
               aria-label="simple table"
             >
               <TableHead>
-                <TableRow >
+                <TableRow>
                   <StyledTableCell>Value</StyledTableCell>
                   <StyledTableCell align="right">Result</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {spreadData.map((row, index) => (
-                  <StyledTableRow key={index}>
+                {loadingSpread ? (
+                  <TableRow>
                     <TableCell component="th" scope="row">
-                      {row.category}
+                      <CircularProgress size={24} color="primary" />
                     </TableCell>
-                    <TableCell align="right">{row.value}</TableCell>
-                  </StyledTableRow>
-                ))}
+                    <TableCell align="right">
+                      <CircularProgress size={24} color="primary" />
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  spreadData.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {row.category}
+                      </TableCell>
+                      <TableCell align="right">{row.value}</TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </TableContainer>
