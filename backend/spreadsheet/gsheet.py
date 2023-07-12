@@ -1,11 +1,11 @@
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
+
 class GSpreadSheet():
-  
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-    
-    SERVICE_ACCOUNT_FILE = './static/json/dowell-company-243a0b4d4554.json'
+
+    SERVICE_ACCOUNT_FILE = './static/json/dowell-company-b0725e0b531b.json'
 
     def __init__(self, spreadsheet_id):
         creds = service_account.Credentials.from_service_account_file(self.SERVICE_ACCOUNT_FILE, scopes=self.SCOPES)
@@ -19,6 +19,14 @@ class GSpreadSheet():
         values = result.get('values', [])
         return values
 
+    def get_column_values(self, sheet_name, column):
+        _range = "{}!{}:{}".format(sheet_name, column, column)
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(spreadsheetId=self.spreadsheet_id,
+                                    range=_range).execute()
+        values = result.get('values', [])
+        return values
+
     def appendNewRow(self, _range, values):
         body = {
             "majorDimension": "ROWS",
@@ -29,22 +37,19 @@ class GSpreadSheet():
             spreadsheetId=self.spreadsheet_id, range=_range,
             valueInputOption="RAW", body=body).execute()
 
-    def searchRowIndex(self, sheetName, column, columnValue):
-        col_val = '=MATCH("{0}", {1}!{2}:{2}, 0)'.format(columnValue, sheetName, column)
-        update_spreadsheet_request_body = {
-            "values": [
-                [col_val]
-            ]
-        }
-        _range = "LOOKUP_SHEET_1!A:A"
-        request = self.service.spreadsheets().values().update(
-            spreadsheetId=self.spreadsheet_id, includeValuesInResponse=True,
-            valueInputOption="USER_ENTERED", range=_range, body=update_spreadsheet_request_body)
-        response = request.execute()
+    def searchRowIndex(self, sheetName, column, value):
+        _range = "{}!{}:{}".format(sheetName, column, column)
 
-        row_index = response['updatedData']['values'][0][0]
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(spreadsheetId=self.spreadsheet_id, range=_range).execute()
 
-        return row_index
+        row_index = 0
+        for row in result.get('values', []):
+            row_index += 1
+            if row[0] == value:
+                return row_index
+
+        return 0
 
     def getRowFromIndex(self, sheetName, row_index, row_start, row_end):
         _range = "{}!{}{}:{}{}".format(sheetName, row_start, row_index, row_end, row_index)

@@ -57,9 +57,11 @@ export const AllBasket = ({ submitBtnClicked }) => {
       <Box>
         {currentStep == 0 && (
           <LoadingButton 
+          color="primary"
+          variant="contained"
           loading={status==Status.Pending}
           onClick={allBasketRequest}>
-                    
+             Classification       
           </LoadingButton>
         )}
         {currentStep == 1 && (
