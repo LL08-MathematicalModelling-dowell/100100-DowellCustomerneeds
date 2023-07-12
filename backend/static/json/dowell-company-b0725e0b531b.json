@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dowell-company",
+  "private_key_id": "b0725e0b531b1f4e23edfe090c2ff32118032c2f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCyVsJEaBI80qHi\nkyr1BKZqprIf5QeVfCnTbvD649X+DuFCdfr/LVrA4QON2CQ3ZNJbsA2eI2KHowZl\nFwKcbi0wj9IFxjld/W+k0nBNLWDzegJO7uwOQharWCevJK9s2JhOixDyL98MFuNr\nzjx1PjtHAtTAWvgjX35GMftw4vhHA5IjI+eiJpjEzZJlbZwfUTcJnsiV8e5xMVJ+\nY6x7+fcDn2qvdmSxluOzHPOaCnMGLulSRD1ePIhQccVQj0Bx1LS5VsvaPMIgdimz\nHSHmkMoZTEiGnCsz4OOSF2OLRIouhCT5fxPsDGhB1EEohec37509I6RgdeoGdExJ\n8js+5DrzAgMBAAECggEAC8ODTwXaZh6yxQJWLBFhdNmIGGiAJpEpJSRFSxdqTzbm\nDv8/TkPMn7p4BIxEX08MPTYQv+SvpCjRzCtHZdAytOhXvz/DGvsTuTiUZdLfeVAM\nBO7nrU0Yt7a572ipFbH34f50YLVdrit4Vu0kucsgF+AM7p9RjOvIpZK4dkrSe8SY\n/1IycktfxEs+hHnwvkW/f63jvGZ2ebqnfNTZN0ZywFDdO3h1VKrhQPLQbzXzICVi\nW2o7n22vXSuwbstTT8B56I78NG92EgnI0e885GpbCUyr25dyD52swKktgprwnIbR\np7F7RTmHVTrrFSBNAZFDwVfk5fjHzyGZ/+HK3tqB6QKBgQD52w5vYmZbPnc8wsEm\nwP4X5KSN4Dl6nKeyTlY627UyXGKVlQIVgJpnqAwTmwuCPFW8RctdGZLb2YdhOVkO\nPKbHOePhTw4Zoz0rZlf+CrdkBUJEubwr8+oEYv9uxLq/1VDPXHKyTtcDIBamRwW1\n/uJpcUQIVfE8G184sJLadjp5ZwKBgQC2uXmfESgqHvEVKddwFd8vpBiGQUkwXpFA\nhYspQRDVEhcE0DaOfPNenznFpHzgrOtx0BgNWm/Ucf9RhtoqNW3I9Uydtn2Q5Aiu\nBEidVfE8pWCzbPudANp8CG2ieaV93sVqMOhwI9LDii/CUUgqAYxTFjaHBs56Z1tc\nWX0PneKelQKBgQCed78aChDdQisiEGutBq6hvNRZX6NVDtKVlnW+cubjgBDOymk9\n9gj4QW8XaDjOazH9bU7kR3oLklX45gSDsRgeN6s+lYNd41jCk/CvIWDbQTKcoCim\nv9bm3VsgiAnh7YuJWRst2C8qvklfQKBwo646Lip2FvwfoUStkeAyStYfdQKBgQCz\n80mBjAYAJWTLsN9ItWGNq4+zeEw55IgsANiiEkAfdqdQyDVScl/DShA9Qtbw9ZsS\nBRwK2ovTr0kA40ur0d6C0IFZuMVEki6yIenZeTAQx9XKHoRVhOemyy4dmquOoHvP\nLsda2QzSIh8SwbXOGKQ3l2Kv69Yg2fUxp7fwT09FWQKBgQDP2mir0faQMqRnmfPD\nESnLavItBC46D23Kp30EPZ5NOPLTL1gHzPSys69HvKzcaAdYddBMw/EbYK2Reknv\nIw1A/zQGgXSM6F/fpssoppbVErdtWsLqDTU07kAhvBRjQUbzb3oCIFXVeoVLtTGw\n5TUSHVOq5Q/2YnArU4j//rzIGQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "dowell@dowell-company.iam.gserviceaccount.com",
+  "client_id": "116796362966988208722",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dowell%40dowell-company.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
