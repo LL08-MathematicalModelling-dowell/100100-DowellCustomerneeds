@@ -14,40 +14,40 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true); // set loading to true when the fetch request is initiated
+    setLoading(true);
     setTimeout(() => {
-      // add a 2s delay before fetching the data
+      
       fetch("http://127.0.0.1:8000/q1/")
         .then((response) => response.json())
         .then((data) => {
           setQ1Data(data);
-          setLoading(false); // set loading to false when the data is fetched
+          setLoading(false); 
         })
         .catch((error) => {
           console.error("Error fetching q1 data:", error);
-          setLoading(false); // set loading to false when an error occurs
+          setLoading(false); 
         });
 
       fetch("http://127.0.0.1:8000/q2/")
         .then((response) => response.json())
         .then((data) => {
           setQ2Data(data);
-          setLoading(false); // set loading to false when the data is fetched
+          setLoading(false); 
         })
         .catch((error) => {
           console.error("Error fetching q2 data:", error);
-          setLoading(false); // set loading to false when an error occurs
+          setLoading(false); 
         });
 
       fetch("http://127.0.0.1:8000/q3/")
         .then((response) => response.json())
         .then((data) => {
           setQ3Data(data);
-          setLoading(false); // set loading to false when the data is fetched
+          setLoading(false); 
         })
         .catch((error) => {
           console.error("Error fetching q3 data:", error);
-          setLoading(false); // set loading to false when an error occurs
+          setLoading(false); 
         });
     }, 2000);
   }, []);
