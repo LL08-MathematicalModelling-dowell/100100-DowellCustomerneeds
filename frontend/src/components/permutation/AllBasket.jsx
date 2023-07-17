@@ -12,21 +12,14 @@ import { SelectItem } from "./SelectItem";
 import { FinalizeSelectedItem } from "./FinalizeSelectedItem";
 import { ClassificationResult } from "./ClassificationResult";
 import { DisplayClassificationResult } from "./DisplayClassificationResult";
-import { classificationData } from "../../data/classificationData";
+import { convertToClassificationPayloadType } from "./convertToClassificationPayloadType";
 
 export const BASE_URL = "http://100061.pythonanywhere.com";
 
-export const AllBasket = ({ submitBtnClicked }) => {
+export const AllBasket = ({ selectedOptions }) => {
   const { status, responseData, postData } = usePostClient();
   const [currentStep, setCurrentStep] = useState(0);
   const [currentStepData, setCurrentStepData] = useState(undefined);
-
-  const allBasketRequest = () => {
-    postData(
-      classificationData,
-      "http://100061.pythonanywhere.com/allbaskets/"
-    );
-  };
 
   const sendTypeRequest = () => {
     const data = {
@@ -36,12 +29,6 @@ export const AllBasket = ({ submitBtnClicked }) => {
     };
     postData(data, BASE_URL + "/type/");
   };
-
-  useEffect(() => {
-    if (submitBtnClicked) {
-      allBasketRequest();
-    }
-  }, [submitBtnClicked]);
 
   useEffect(() => {
     if (responseData == undefined) return;
@@ -59,7 +46,12 @@ export const AllBasket = ({ submitBtnClicked }) => {
           color="primary"
           variant="contained"
           loading={status == Status.Pending}
-          onClick={allBasketRequest}
+          onClick={() =>
+            postData(
+              convertToClassificationPayloadType(selectedOptions),
+              "http://100061.pythonanywhere.com/allbaskets/"
+            )
+          }
         >
           Classification
         </LoadingButton>
