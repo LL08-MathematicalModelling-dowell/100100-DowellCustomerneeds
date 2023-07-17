@@ -1,12 +1,22 @@
-from django.shortcuts import render
-from rest_framework.views import APIView , Response
-from .gsheet import GSpreadSheet
+from rest_framework.views import APIView
+from .function import sheet_latest_result
+from django.http import JsonResponse
+
 
 class SpreadsheetView(APIView):
 
-    def get(self, request):
-        spreadsheet_id = '1hFy7HHAmbAhURqpsmfjSVOAchbjjITJwH-9r3xWjdts'
-        sheet_name = 'Sheet1'
-        gsheet = GSpreadSheet(spreadsheet_id)
-        data = gsheet.get_data(sheet_name)
-        return Response(data)
+    def post(self, request):
+        Q1Regression = request.data['Q1Regression']
+        Q2Regression = request.data['Q2Regression']
+        Q3Regression = request.data['Q3Regression']
+        result_one, result_two, result_three = sheet_latest_result(
+            Q1Regression, Q2Regression, Q3Regression
+        )
+
+        return JsonResponse(
+            [
+                {"category": Q1Regression, "value": result_one},
+                {"category": Q2Regression, "value": result_two},
+                {"category": Q3Regression, "value": result_three}
+            ], safe=False
+        )
