@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 export const QuestionsSelection = ({ onSelectionChange }) => {
   const [q1Data, setQ1Data] = useState([]);
@@ -57,7 +57,7 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
   }, [selectedQ1Data, selectedQ2Data, selectedQ3Data]);
 
   return (
-    <>
+    <Box display={"flex"} justifyContent={"space-between"}>
       <Autocomplete
         disablePortal
         id="q1"
@@ -120,6 +120,6 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
           />
         )}
       />
-    </>
+    </Box>
   );
 };

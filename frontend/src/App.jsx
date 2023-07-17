@@ -1,16 +1,13 @@
 import React from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import ComboBox from "./components/ComboBox";
-
-
+import MainContent from "./components/MainContent";
 
 function App() {
   return (
     <>
-    <NavBar/>
-    <ComboBox/>
-    
+      <NavBar />
+      <MainContent />
     </>
   );
 }

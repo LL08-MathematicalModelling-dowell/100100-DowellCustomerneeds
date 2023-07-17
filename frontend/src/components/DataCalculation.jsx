@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-import { Button, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 import {
   TableContainer,
@@ -34,15 +35,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function DataCalculation({
-  selectedQ1Data,
-  selectedQ2Data,
-  selectedQ3Data,
-}) {
+// eslint-disable-next-line react/prop-types
+export default function DataCalculation({ selectedOptions }) {
   const [loadingSpread, setLoadingSpread] = useState(false);
 
   const isSubmitDisabled =
-    !selectedQ1Data || !selectedQ2Data || !selectedQ3Data;
+    !selectedOptions?.selectedQ1Data ||
+    !selectedOptions?.selectedQ2Data ||
+    !selectedOptions?.selectedQ3Data;
   const [spreadData, setSpreadData] = useState([]);
 
   const callSheetData = () => {
@@ -53,9 +53,9 @@ export default function DataCalculation({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Q1Regression: selectedQ1Data.Item,
-        Q2Regression: selectedQ2Data.Item,
-        Q3Regression: selectedQ3Data.Item,
+        Q1Regression: selectedOptions.selectedQ1Data.Item,
+        Q2Regression: selectedOptions.selectedQ2Data.Item,
+        Q3Regression: selectedOptions.selectedQ3Data.Item,
       }),
     })
       .then((response) => response.json())
@@ -73,19 +73,8 @@ export default function DataCalculation({
 
   return (
     <>
-      <Card sx={{ minWidth: 250, maxWidth: 1200 }}>
-        <Box
-          component="form"
-          m={1}
-          pr={1}
-          p={4}
-          display="flex"
-          flexDirection={{ xs: "column", md: "row" }}
-          alignItems="center"
-          justifyContent="center"
-          gap={2}
-          flexWrap="wrap"
-        >
+      <Card sx={{ minWidth: 250, maxWidth: 1200, marginTop: "30px" }}>
+        <Box>
           <LoadingButton
             loading={loadingSpread}
             variant="contained"
@@ -94,9 +83,9 @@ export default function DataCalculation({
               callSheetData();
             }}
             disabled={isSubmitDisabled}
-            sx={{ width: "100%", maxWidth: 250 }}
+            sx={{ width: "100%", maxWidth: 250, marginBottom: "8px" }}
           >
-            Calculate
+            Regression
           </LoadingButton>
         </Box>
 
