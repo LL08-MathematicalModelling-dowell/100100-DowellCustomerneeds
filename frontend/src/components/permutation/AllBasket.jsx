@@ -39,6 +39,11 @@ export const AllBasket = ({ selectedOptions }) => {
     }
   }, [status, responseData]);
 
+  const isSubmitDisabled =
+    !selectedOptions?.selectedQ1Data ||
+    !selectedOptions?.selectedQ2Data ||
+    !selectedOptions?.selectedQ3Data;
+
   return (
     <Box marginTop={"30px"}>
       {currentStep == 0 && (
@@ -46,6 +51,7 @@ export const AllBasket = ({ selectedOptions }) => {
           color="primary"
           variant="contained"
           loading={status == Status.Pending}
+          disabled={isSubmitDisabled}
           onClick={() =>
             postData(
               convertToClassificationPayloadType(selectedOptions),
