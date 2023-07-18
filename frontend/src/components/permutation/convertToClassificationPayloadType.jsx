@@ -1,27 +1,27 @@
 export function convertToClassificationPayloadType(selectedOptions) {
   const payload = {};
 
-  const { selectedQ1Data, selectedQ2Data, selectedQ3Data } = selectedOptions;
+  const { selectedQuestionOneData, selectedQuestionTwoData, selectedQuestionThreeData } = selectedOptions;
 
-  if (selectedQ1Data && selectedQ1Data.Item) {
-    payload[selectedQ1Data.Item] =
-      selectedQ1Data.tags?.map((tag) => ({
+  if (selectedQuestionOneData && selectedQuestionOneData.Item) {
+    payload[selectedQuestionOneData.Item] =
+    selectedQuestionOneData.tags?.map((tag) => ({
         item: tag,
         itemLink: "",
       })) || [];
   }
 
-  if (selectedQ2Data && selectedQ2Data.Item) {
-    payload[selectedQ2Data.Item] =
-      selectedQ2Data.tags?.map((tag) => ({
+  if (selectedQuestionTwoData && selectedQuestionTwoData.Item) {
+    payload[selectedQuestionTwoData.Item] =
+    selectedQuestionTwoData.tags?.map((tag) => ({
         item: tag,
         itemLink: "",
       })) || [];
   }
 
-  if (selectedQ3Data && selectedQ3Data.Item) {
-    payload[selectedQ3Data.Item] =
-      selectedQ3Data.tags?.map((tag) => ({
+  if (selectedQuestionThreeData && selectedQuestionThreeData.Item) {
+    payload[selectedQuestionThreeData.Item] =
+    selectedQuestionThreeData.tags?.map((tag) => ({
         item: tag,
         itemLink: "",
       })) || [];

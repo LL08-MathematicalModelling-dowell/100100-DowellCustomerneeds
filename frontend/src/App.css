@@ -1,3 +1,9 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
 .MuiCircularProgress-root{
     color: #3F51b5;    
 }
+
