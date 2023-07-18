@@ -40,9 +40,9 @@ export default function DataCalculation({ selectedOptions }) {
   const [loadingSpread, setLoadingSpread] = useState(false);
 
   const isSubmitDisabled =
-    !selectedOptions?.selectedQ1Data ||
-    !selectedOptions?.selectedQ2Data ||
-    !selectedOptions?.selectedQ3Data;
+    !selectedOptions?.selectedQuestionOneData ||
+    !selectedOptions?.selectedQuestionTwoData ||
+    !selectedOptions?.selectedQuestionThreeData;
   const [spreadData, setSpreadData] = useState([]);
 
   const callSheetData = () => {
@@ -53,9 +53,9 @@ export default function DataCalculation({ selectedOptions }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Q1Regression: selectedOptions.selectedQ1Data.Item,
-        Q2Regression: selectedOptions.selectedQ2Data.Item,
-        Q3Regression: selectedOptions.selectedQ3Data.Item,
+        Q1Regression: selectedOptions.selectedQuestionOneData.Item,
+        Q2Regression: selectedOptions.selectedQuestionTwoData.Item,
+        Q3Regression: selectedOptions.selectedQuestionThreeData.Item,
       }),
     })
       .then((response) => response.json())
