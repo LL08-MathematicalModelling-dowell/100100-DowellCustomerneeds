@@ -47,15 +47,16 @@ export default function DataCalculation({ selectedOptions }) {
 
   const callSheetData = () => {
     setLoadingSpread(true);
+    console.log(selectedOptions.selectedQuestionOneData)
     fetch("http://127.0.0.1:8000/api/spreadsheet/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Q1Regression: selectedOptions.selectedQuestionOneData.Item,
-        Q2Regression: selectedOptions.selectedQuestionTwoData.Item,
-        Q3Regression: selectedOptions.selectedQuestionThreeData.Item,
+        Q1Regression: selectedOptions.selectedQuestionOneData['Item ID'],
+        Q2Regression: selectedOptions.selectedQuestionTwoData['Item ID'],
+        Q3Regression: selectedOptions.selectedQuestionThreeData['Item ID'],
       }),
     })
       .then((response) => response.json())
