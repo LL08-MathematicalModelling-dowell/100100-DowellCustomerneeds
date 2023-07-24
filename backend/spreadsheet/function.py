@@ -42,7 +42,7 @@ def calculate_result(regression_data, weight_data):
             total_sum += x_i * b_i
         except (ValueError, IndexError):
             pass
-    return total_sum
+    return round(total_sum, 3)
 
 
 def get_data_from_sheets(sheet_name, item_id):
