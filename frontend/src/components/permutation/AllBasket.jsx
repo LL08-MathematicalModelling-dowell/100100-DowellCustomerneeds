@@ -40,9 +40,9 @@ export const AllBasket = ({ selectedOptions }) => {
   }, [status, responseData]);
 
   const isSubmitDisabled =
-    !selectedOptions?.selectedQ1Data ||
-    !selectedOptions?.selectedQ2Data ||
-    !selectedOptions?.selectedQ3Data;
+    !selectedOptions?.selectedQuestionOneData ||
+    !selectedOptions?.selectedQuestionTwoData ||
+    !selectedOptions?.selectedQuestionThreeData;
 
   return (
     <Box marginTop={"30px"}>
