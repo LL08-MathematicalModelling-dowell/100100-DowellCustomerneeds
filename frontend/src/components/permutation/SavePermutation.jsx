@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import LoadingButton from '@mui/lab/LoadingButton';
-import { usePostClient} from "../../client/postClient"
+import LoadingButton from "@mui/lab/LoadingButton";
+import { usePostClient } from "../../client/postClient";
 import { Status } from "../../client/status";
-import { BASE_URL } from "./AllBasket";
+import { BASE_URL } from "./Classification";
+import { Typography } from "@mui/material";
 
 export const SavePermutation = ({
   permutations,
@@ -30,10 +31,11 @@ export const SavePermutation = ({
 
   return (
     <>
+      <Typography>Save a permutation</Typography>
       {permutations?.map((permutation, index) => {
         return (
           <LoadingButton
-            loading={status==Status.Pending}
+            loading={status == Status.Pending}
             variant="contained"
             onClick={() => savePermutation(permutation)}
             key={index}
