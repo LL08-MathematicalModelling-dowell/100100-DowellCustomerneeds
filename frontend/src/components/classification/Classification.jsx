@@ -16,6 +16,20 @@ import { convertToClassificationPayloadType } from "./convertToClassificationPay
 
 export const BASE_URL = "http://100061.pythonanywhere.com";
 
+const StepName = {
+  INITIATE : 1,
+  BasketSelect : 2,
+  BasketSelect2 : 3,
+  BasketSave : 4,
+  SavePermutation : 5,
+  BasketSelect3 : 6,
+  SavePermutation2 : 7,
+  FinalBasketSave : 8,
+  ItemSelect : 9,
+  NextItemSelect : 10,
+  ItemSave : 11,
+}
+
 export const Classification = ({ selectedOptions }) => {
   const { status, responseData, postData } = usePostClient();
   const [currentStep, setCurrentStep] = useState(0);
@@ -62,7 +76,7 @@ export const Classification = ({ selectedOptions }) => {
           Classification
         </LoadingButton>
       )}
-      {currentStep == 1 && (
+      {currentStep == StepName.INITIATE && (
         <Box>
           <Typography> numberOfLevels: 3, classificationType: N</Typography>
           <LoadingButton
@@ -76,7 +90,7 @@ export const Classification = ({ selectedOptions }) => {
         </Box>
       )}
 
-      {currentStep == 2 && (
+      {currentStep == StepName.BasketSelect && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             {currentStepData?.message}
@@ -90,7 +104,7 @@ export const Classification = ({ selectedOptions }) => {
                 dbInsertedId={currentStepData?.insertedId}
                 onBasket1SelectComplete={(rd) => {
                   setCurrentStepData(rd);
-                  setCurrentStep(currentStep + 1);
+                  setCurrentStep(StepName.BasketSelect2);
                 }}
               />
             </Box>
@@ -98,7 +112,7 @@ export const Classification = ({ selectedOptions }) => {
         </>
       )}
 
-      {currentStep == 3 && (
+      {currentStep == StepName.BasketSelect2 && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             {currentStepData?.message}
@@ -112,7 +126,7 @@ export const Classification = ({ selectedOptions }) => {
                 dbInsertedId={currentStepData?.insertedId}
                 onBasket1SelectComplete={(rd) => {
                   setCurrentStepData(rd);
-                  setCurrentStep(currentStep + 1);
+                  setCurrentStep(StepName.BasketSave);
                 }}
               />
             </Box>
@@ -120,7 +134,7 @@ export const Classification = ({ selectedOptions }) => {
         </>
       )}
 
-      {currentStep == 4 && (
+      {currentStep == StepName.BasketSave && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             {currentStepData?.message}
@@ -130,14 +144,14 @@ export const Classification = ({ selectedOptions }) => {
             insertedId={currentStepData?.insertedId}
             permutations={currentStepData?.permutations}
             onSavePermutationComplete={(message) => {
-              setCurrentStep(currentStep + 1);
+              setCurrentStep(StepName.SavePermutation);
               alert(message);
             }}
           />
         </>
       )}
 
-      {currentStep == 5 && (
+      {currentStep == StepName.SavePermutation && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             Select a basket
@@ -151,7 +165,7 @@ export const Classification = ({ selectedOptions }) => {
                 dbInsertedId={currentStepData?.insertedId}
                 onBasket1SelectComplete={(rd) => {
                   setCurrentStepData(rd);
-                  setCurrentStep(currentStep + 1);
+                  setCurrentStep(StepName.BasketSelect3);
                 }}
               />
             </Box>
@@ -159,7 +173,7 @@ export const Classification = ({ selectedOptions }) => {
         </>
       )}
 
-      {currentStep == 6 && (
+      {currentStep == StepName.BasketSelect3 && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             {currentStepData?.message}
@@ -170,13 +184,13 @@ export const Classification = ({ selectedOptions }) => {
             permutations={currentStepData?.permutations}
             onSavePermutationComplete={(message) => {
               alert(message);
-              setCurrentStep(currentStep + 1);
+              setCurrentStep(StepName.SavePermutation2);
             }}
           />
         </>
       )}
 
-      {currentStep == 7 && (
+      {currentStep == StepName.SavePermutation2 && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             Save Final Basket Order
@@ -186,13 +200,13 @@ export const Classification = ({ selectedOptions }) => {
             dbInsertedId={currentStepData?.insertedId}
             onComplete={(rd) => {
               setCurrentStepData(rd);
-              setCurrentStep(currentStep + 1);
+              setCurrentStep(StepName.FinalBasketSave);
             }}
           />
         </>
       )}
 
-      {currentStep == 8 && (
+      {currentStep == StepName.FinalBasketSave && (
         <>
           <Typography variant="h6" mt={2} gutterBottom>
             {currentStepData?.message}
@@ -207,13 +221,13 @@ export const Classification = ({ selectedOptions }) => {
                 ...rd,
                 insertedId: currentStepData?.insertedId,
               });
-              setCurrentStep(currentStep + 1);
+              setCurrentStep(StepName.ItemSelect);
             }}
           />
         </>
       )}
 
-      {currentStep == 9 && (
+      {currentStep == StepName.ItemSelect && (
         <>
           {currentStepData?.permutations !== undefined || (
             <React.Fragment>
