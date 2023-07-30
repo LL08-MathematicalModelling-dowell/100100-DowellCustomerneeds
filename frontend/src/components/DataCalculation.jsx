@@ -48,7 +48,7 @@ export default function DataCalculation({ selectedOptions }) {
   const callSheetData = () => {
     setLoadingSpread(true);
     console.log(selectedOptions.selectedQuestionOneData)
-    fetch("http://127.0.0.1:8000/api/spreadsheet/", {
+    fetch("/api/spreadsheet/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
