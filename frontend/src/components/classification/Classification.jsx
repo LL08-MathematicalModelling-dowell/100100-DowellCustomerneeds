@@ -26,8 +26,9 @@ const StepName = {
   SavePermutation2 : 7,
   FinalBasketSave : 8,
   ItemSelect : 9,
-  NextItemSelect : 10,
-  ItemSave : 11,
+  NextItemSelect : 9,
+  ItemSave : 10,
+  FinalResult: 11,
 }
 
 export const Classification = ({ selectedOptions }) => {
@@ -288,19 +289,19 @@ export const Classification = ({ selectedOptions }) => {
         </>
       )}
 
-      {currentStepData?.nextBasketItems == undefined && currentStep == 9 && (
+      {currentStepData?.nextBasketItems == undefined && currentStep == StepName.ItemSelect && (
         <>
           <FinalizeSelectedItem
             insertedId={currentStepData?.insertedId}
             onCompleteItemSelect={(rd) => {
               alert(rd?.message);
-              setCurrentStep(10);
+              setCurrentStep(StepName.ItemSave);
             }}
           />
         </>
       )}
 
-      {currentStep == 10 && (
+      {currentStep == StepName.ItemSave && (
         <ClassificationResult
           insertedId={currentStepData?.insertedId}
           onCompleteItemSelect={(rd) => {
@@ -309,12 +310,12 @@ export const Classification = ({ selectedOptions }) => {
               ...rd,
               insertedId: currentStepData?.insertedId,
             });
-            setCurrentStep(currentStep + 1);
+            setCurrentStep(StepName.FinalResult);
           }}
         />
       )}
 
-      {currentStep == 11 && (
+      {currentStep == StepName.FinalResult && (
         <DisplayClassificationResult results={currentStepData?.finalOutput} />
       )}
     </Box>
