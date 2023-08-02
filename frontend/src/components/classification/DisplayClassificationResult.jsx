@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 
-import { Button, Divider, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 export const DisplayClassificationResult = ({ results }) => {
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedRow, setSelectedRow] = useState([]);
 
   const handleRowClick = (row) => {
-    setSelectedTags(row);
+    setSelectedRow(row);
+  };
+
+  const handleChange = (e, index) => {
+    const updatedRow = [...selectedRow];
+    updatedRow[index] = e.target.value;
+    setSelectedRow(updatedRow);
   };
 
   return (
@@ -32,20 +38,22 @@ export const DisplayClassificationResult = ({ results }) => {
         sx={{
           "& .MuiTextField-root": { m: 1, width: "25ch" },
         }}
+        marginTop={"20px"}
         noValidate
         autoComplete="off"
       >
-        {selectedTags.map((val, ind) => (
-          <TextField
-            marginTop={10}
-            key={ind}
-            variant="outlined"
-            value={val}
-            fullWidth
-            label={`tags ${ind + 1}`}
-            margin="normal"
-          />
-        ))}
+      {selectedRow.map((val, ind) => (
+        <TextField
+          key={ind}
+          variant="outlined"
+          value={val}
+          fullWidth
+          label={`Tag ${ind + 1}`}
+          placeholder={`Enter tag value ${ind + 1}`}
+          onChange={(e) => handleChange(e, ind)}
+          margin="normal"
+        />
+      ))}
       </Box>
     </Box>
   );
