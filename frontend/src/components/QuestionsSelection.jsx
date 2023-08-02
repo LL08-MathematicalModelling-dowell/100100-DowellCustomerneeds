@@ -10,6 +10,7 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
   const [selectedQuestionOneData, setSelectedQuestionOneData] = useState(null);
   const [selectedQuestionTwoData, setSelectedQuestionTwoData] = useState(null);
   const [selectedQuestionThreeData, setSelectedQuestionThreeData] = useState(null);
+  
 
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +18,7 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
     setLoading(true); 
     setTimeout(() => {
       
-      fetch("http://127.0.0.1:8000/QuestionOne/")
+      fetch("/api/QuestionOne/")
         .then((response) => response.json())
         .then((data) => {
           setQuestionOneData(data);
@@ -28,7 +29,7 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
           setLoading(false); 
         });
 
-      fetch("http://127.0.0.1:8000/QuestionTwo/")
+      fetch("/api/QuestionTwo/")
         .then((response) => response.json())
         .then((data) => {
           setQuestionTwoData(data);
@@ -39,7 +40,7 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
           setLoading(false);
         });
 
-      fetch("http://127.0.0.1:8000/QuestionThree/")
+      fetch("/api/QuestionThree/")
         .then((response) => response.json())
         .then((data) => {
           setQuestionThreeData(data);
