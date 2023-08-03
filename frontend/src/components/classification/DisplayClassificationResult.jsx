@@ -1,20 +1,36 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import Box from "@mui/material/Box";
 
 import { Button, TextField } from "@mui/material";
+import { usePostClient } from "../../client/postClient";
 
 export const DisplayClassificationResult = ({ results }) => {
   const [selectedRow, setSelectedRow] = useState([]);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const {postData } = usePostClient();
 
   const handleRowClick = (row) => {
     setSelectedRow(row);
+    setIsSubmitDisabled(false);
   };
 
   const handleChange = (e, index) => {
-    const updatedRow = [...selectedRow];
-    updatedRow[index] = e.target.value;
-    setSelectedRow(updatedRow);
+    const { value } = e.target;
+    setSelectedRow((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows[index] = value;
+      return updatedRows;
+    });
   };
+
+  const handleSubmit = async () => {
+    const data = {
+      rowValues: selectedRow,
+    };
+    postData(data, "/api/classicData/");
+  };
+  
+
 
   return (
     <Box>
@@ -54,7 +70,11 @@ export const DisplayClassificationResult = ({ results }) => {
           margin="normal"
         />
       ))}
+      
       </Box>
+      <Button variant="contained" onClick={handleSubmit} disabled={isSubmitDisabled}>
+        Submit Data
+      </Button>
     </Box>
   );
 };
