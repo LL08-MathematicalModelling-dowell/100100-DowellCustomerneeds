@@ -61,10 +61,9 @@ export const DisplayClassificationResult = ({ results }) => {
       {selectedRow.map((val, ind) => (
         <TextField
           key={ind}
-          variant="outlined"
-          value={val}
+          variant="outlined"          
           fullWidth
-          label={`Tag ${ind + 1}`}
+          label={val}
           placeholder={`Enter tag value ${ind + 1}`}
           onChange={(e) => handleChange(e, ind)}
           margin="normal"
