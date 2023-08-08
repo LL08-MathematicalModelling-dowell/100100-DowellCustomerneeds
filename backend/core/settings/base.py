@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'csneeds',
     'rest_framework',
     'corsheaders',
-    'spreadsheet'
+    'spreadsheet',
+    'classicApi',
 ]
 
 MIDDLEWARE = [
