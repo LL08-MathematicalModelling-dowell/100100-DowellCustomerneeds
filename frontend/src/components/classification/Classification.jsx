@@ -31,7 +31,7 @@ const StepName = {
   FinalResult: 11,
 }
 
-export const Classification = ({ selectedOptions }) => {
+export const Classification = ({ selectedOptions, userInputData }) => {
   const { status, responseData, postData } = usePostClient();
   const [currentStep, setCurrentStep] = useState(0);
   const [currentStepData, setCurrentStepData] = useState(undefined);
@@ -316,7 +316,7 @@ export const Classification = ({ selectedOptions }) => {
       )}
 
       {currentStep == StepName.FinalResult && (
-        <DisplayClassificationResult results={currentStepData?.finalOutput} />
+        <DisplayClassificationResult results={currentStepData?.finalOutput} userInputData={userInputData} />
       )}
     </Box>
   );

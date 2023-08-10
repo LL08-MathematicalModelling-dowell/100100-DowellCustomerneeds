@@ -5,7 +5,7 @@ import { usePostClient} from "../../client/postClient"
 import { Status } from "../../client/status";
 import { BASE_URL } from "./Classification";
 
-// eslint-disable-next-line react/prop-types
+
 export const SelectBasket2 = ({
   basketName, previousResponse, dbInsertedId, onBasket1SelectComplete,
 }) => {

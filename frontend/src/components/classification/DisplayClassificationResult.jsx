@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 
 import { Button, TextField } from "@mui/material";
 
-export const DisplayClassificationResult = ({ results }) => {
+export const DisplayClassificationResult = ({ results, userInputData}) => {
   const [selectedRow, setSelectedRow] = useState([]);
 
   const handleRowClick = (row) => {
@@ -11,10 +11,19 @@ export const DisplayClassificationResult = ({ results }) => {
   };
 
   const handleChange = (e, index) => {
-    const updatedRow = [...selectedRow];
-    updatedRow[index] = e.target.value;
-    setSelectedRow(updatedRow);
+    const { value } = e.target;
+    setSelectedRow((prevRows) => {
+      const updatedRows = [...prevRows];
+      updatedRows[index] = value;
+      return updatedRows;
+    });
+    
   };
+
+  useEffect(() => {
+    
+    userInputData(selectedRow)
+  }, [selectedRow])
 
   return (
     <Box>
@@ -45,15 +54,15 @@ export const DisplayClassificationResult = ({ results }) => {
       {selectedRow.map((val, ind) => (
         <TextField
           key={ind}
-          variant="outlined"
-          value={val}
+          variant="outlined"          
           fullWidth
-          label={`Tag ${ind + 1}`}
+          label={val}
           placeholder={`Enter tag value ${ind + 1}`}
           onChange={(e) => handleChange(e, ind)}
           margin="normal"
         />
       ))}
+      
       </Box>
     </Box>
   );

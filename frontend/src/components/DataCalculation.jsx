@@ -1,11 +1,10 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import { CircularProgress } from "@mui/material";
-
+import { DisplayClassificationResult } from "./classification/DisplayClassificationResult";
 import {
   TableContainer,
   Table,
@@ -35,8 +34,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-// eslint-disable-next-line react/prop-types
-export default function DataCalculation({ selectedOptions }) {
+
+export default function DataCalculation({ selectedOptions, updatedRows}) {
   const [loadingSpread, setLoadingSpread] = useState(false);
 
   const isSubmitDisabled =
@@ -47,7 +46,6 @@ export default function DataCalculation({ selectedOptions }) {
 
   const callSheetData = () => {
     setLoadingSpread(true);
-    console.log(selectedOptions.selectedQuestionOneData)
     fetch("/api/spreadsheet/", {
       method: "POST",
       headers: {
@@ -57,6 +55,7 @@ export default function DataCalculation({ selectedOptions }) {
         Q1Regression: selectedOptions.selectedQuestionOneData['Item ID'],
         Q2Regression: selectedOptions.selectedQuestionTwoData['Item ID'],
         Q3Regression: selectedOptions.selectedQuestionThreeData['Item ID'],
+        updatedRows
       }),
     })
       .then((response) => response.json())

@@ -16,6 +16,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const MainContent = () => {
   const [selectedOptions, setSelectedOptions] = React.useState();
+  const [userInputDataList, setUserInputDataList] = React.useState([]);
+
+  const userInputData = (data) => {
+    console.log("User input data in main content: ", data)
+    setUserInputDataList(data)
+  }
 
   React.useEffect(() => {
     console.log("selectedOption", selectedOptions);
@@ -29,10 +35,10 @@ export const MainContent = () => {
         />
       </Box>
       <Box height={"400px"}>
-        <Classification selectedOptions={selectedOptions} />
+        <Classification selectedOptions={selectedOptions} userInputData={userInputData} />
       </Box>
       <Box>
-        <DataCalculation selectedOptions={selectedOptions} />
+        <DataCalculation selectedOptions={selectedOptions} updatedRows={userInputDataList} />
       </Box>
     </Box>
   );
