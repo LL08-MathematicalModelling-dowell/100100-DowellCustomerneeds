@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from .function import calculate_weighted_sum, get_item_name
 from django.http import JsonResponse
 
+
 class SpreadsheetView(APIView):
 
     def post(self, request):
