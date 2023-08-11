@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-
 import { Button, TextField } from "@mui/material";
 
-export const DisplayClassificationResult = ({ results, userInputData}) => {
+export const DisplayClassificationResult = ({ results, userInputData }) => {
   const [selectedRow, setSelectedRow] = useState([]);
+  const [inputValues, setInputValues] = useState({});
 
   const handleRowClick = (row) => {
     setSelectedRow(row);
+    setInputValues({});
   };
 
-  const handleChange = (e, index) => {
+  const handleChange = (e, originalValue) => {
     const { value } = e.target;
-    setSelectedRow((prevRows) => {
-      const updatedRows = [...prevRows];
-      updatedRows[index] = value;
-      return updatedRows;
-    });
-    
+
+    setInputValues((prevValues) => ({
+      ...prevValues,
+      [originalValue]: Number(value),
+    }));
   };
 
   useEffect(() => {
-    
-    userInputData(selectedRow)
-  }, [selectedRow])
+    userInputData(inputValues);
+  }, [inputValues]);
 
   return (
     <Box>
       {results.map((value, index) => (
-        <Box key={index} display="flex" flexDirection={"row"} marginTop={"8px"}>
+        <Box key={index} display="flex" flexDirection="row" marginTop="8px">
           {value.map((val, ind) => {
             return (
               <Button
@@ -42,28 +41,19 @@ export const DisplayClassificationResult = ({ results, userInputData}) => {
           })}
         </Box>
       ))}
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        marginTop={"20px"}
-        noValidate
-        autoComplete="off"
-      >
-      {selectedRow.map((val, ind) => (
+
+      {selectedRow.map((originalValue, index) => (
         <TextField
-          key={ind}
-          variant="outlined"          
+          key={index}
+          variant="outlined"
+          value={inputValues[originalValue] || ''}
           fullWidth
-          label={val}
-          placeholder={`Enter tag value ${ind + 1}`}
-          onChange={(e) => handleChange(e, ind)}
+          label={originalValue}
+          placeholder={`Enter value for ${originalValue}`}
+          onChange={(e) => handleChange(e, originalValue)}
           margin="normal"
         />
       ))}
-      
-      </Box>
     </Box>
   );
 };

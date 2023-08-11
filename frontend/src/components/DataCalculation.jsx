@@ -55,7 +55,7 @@ export default function DataCalculation({ selectedOptions, updatedRows}) {
         Q1Regression: selectedOptions.selectedQuestionOneData['Item ID'],
         Q2Regression: selectedOptions.selectedQuestionTwoData['Item ID'],
         Q3Regression: selectedOptions.selectedQuestionThreeData['Item ID'],
-        updatedRows
+        input:updatedRows
       }),
     })
       .then((response) => response.json())
