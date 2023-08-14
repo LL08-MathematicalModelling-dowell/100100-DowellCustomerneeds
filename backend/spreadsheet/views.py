@@ -14,9 +14,9 @@ class SpreadsheetView(APIView):
         print(user_input_data)
 
         # Calculate the weighted sum for each data
-        result_one = calculate_weighted_sum("Q1", Q1Regression_id)
-        result_two = calculate_weighted_sum("Q2", Q2Regression_id)
-        result_three = calculate_weighted_sum("Q3", Q3Regression_id)
+        result_one = calculate_weighted_sum("Q1", Q1Regression_id, user_input_data)
+        result_two = calculate_weighted_sum("Q2", Q2Regression_id, user_input_data)
+        result_three = calculate_weighted_sum("Q3", Q3Regression_id, user_input_data)
 
         # Get item names
         Q1Regression_item = get_item_name("Q1", Q1Regression_id)

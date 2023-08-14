@@ -4,24 +4,30 @@ import { Button, TextField } from "@mui/material";
 
 export const DisplayClassificationResult = ({ results, userInputData }) => {
   const [selectedRow, setSelectedRow] = useState([]);
-  const [inputValues, setInputValues] = useState({});
+  const [inputValues, setInputValues] = useState([]);
 
   const handleRowClick = (row) => {
     setSelectedRow(row);
-    setInputValues({});
+    setInputValues(Array(row.length).fill(""));
   };
 
-  const handleChange = (e, originalValue) => {
+  const handleChange = (e, index) => {
     const { value } = e.target;
 
-    setInputValues((prevValues) => ({
-      ...prevValues,
-      [originalValue]: Number(value),
-    }));
+    setInputValues((prevValues) => {
+      const updatedValues = [...prevValues];
+      updatedValues[index] = value;
+      return updatedValues;
+    });
   };
 
   useEffect(() => {
-    userInputData(inputValues);
+    const mergedData = selectedRow.map((originalValue, index) => ({
+      key: originalValue,
+      value: inputValues[index] === "" ? 0 : parseFloat(inputValues[index]), // Convert to number
+    }));
+
+    userInputData(mergedData);
   }, [inputValues]);
 
   return (
@@ -41,29 +47,19 @@ export const DisplayClassificationResult = ({ results, userInputData }) => {
           })}
         </Box>
       ))}
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        marginTop={"20px"}
-        noValidate
-        autoComplete="off"
-      >
 
       {selectedRow.map((originalValue, index) => (
         <TextField
           key={index}
           variant="outlined"
-          value={inputValues[originalValue] || ''}
+          value={inputValues[index]}
           fullWidth
           label={originalValue}
           placeholder={`Enter value for ${originalValue}`}
-          onChange={(e) => handleChange(e, originalValue)}
+          onChange={(e) => handleChange(e, index)}
           margin="normal"
         />
       ))}
-      </Box>
     </Box>
   );
 };

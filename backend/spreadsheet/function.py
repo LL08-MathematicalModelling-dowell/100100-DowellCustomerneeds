@@ -30,15 +30,15 @@ def get_weight_sheet(base_sheet, sheet_name, item_id):
     return None
 
 
-def calculate_result(regression_data, weight_data):
-    if regression_data is None or weight_data is None:
+def calculate_result(regression_data_from_sheet, weight_data_from_sheet):
+    if regression_data_from_sheet is None or weight_data_from_sheet is None:
         return 0
 
     total_sum = 0.0
-    for i in range(2, len(regression_data)):
+    for i in range(2, len(regression_data_from_sheet)):
         try:
-            x_i = float(regression_data[i])
-            b_i = float(weight_data[i])
+            x_i = float(regression_data_from_sheet[i])
+            b_i = float(weight_data_from_sheet[i])
             total_sum += x_i * b_i
         except (ValueError, IndexError):
             pass
@@ -46,14 +46,14 @@ def calculate_result(regression_data, weight_data):
 
 
 def get_data_from_sheets(sheet_name, item_id):
-    regression_data = get_regression_sheet(base_sheet, f"{sheet_name}Regression", item_id)
+    # regression_data = get_regression_sheet(base_sheet, f"{sheet_name}Regression", item_id)
     weight_data = get_weight_sheet(base_sheet, f"{sheet_name}Weight", item_id)
-    return regression_data, weight_data
+    return weight_data
 
 
-def calculate_weighted_sum(sheet_name, item_id):
-    regression_data, weight_data = get_data_from_sheets(sheet_name, item_id)
-    return calculate_result(regression_data, weight_data)
+def calculate_weighted_sum(sheet_name, item_id, user_input_data):
+    weight_data = get_data_from_sheets(sheet_name, item_id)
+    return calculate_result(user_input_data, weight_data)
 
 
 def get_item_name(sheet_name, item_id):
