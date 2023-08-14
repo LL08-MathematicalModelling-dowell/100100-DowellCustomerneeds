@@ -11,8 +11,6 @@ class SpreadsheetView(APIView):
         Q3Regression_id = request.data.get('Q3Regression')
         user_input_data = request.data.get('input')
 
-        print(user_input_data)
-
         # Calculate the weighted sum for each data
         result_one = calculate_weighted_sum("Q1", Q1Regression_id, user_input_data)
         result_two = calculate_weighted_sum("Q2", Q2Regression_id, user_input_data)

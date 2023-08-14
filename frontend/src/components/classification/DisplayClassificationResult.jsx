@@ -24,7 +24,7 @@ export const DisplayClassificationResult = ({ results, userInputData }) => {
   useEffect(() => {
     const mergedData = selectedRow.map((originalValue, index) => ({
       key: originalValue,
-      value: inputValues[index] === "" ? 0 : parseFloat(inputValues[index]), // Convert to number
+      value: inputValues[index] === "" ? 0 : parseFloat(inputValues[index]),
     }));
 
     userInputData(mergedData);
