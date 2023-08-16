@@ -32,13 +32,12 @@ def get_weight_sheet(base_sheet, sheet_name, item_id):
 
 def calculate_result(user_input_data, weight_data_from_sheet):
     numeric_values = [float(value) for value in weight_data_from_sheet[3:]]
-    print(numeric_values)
     # Calculate the total based on the given formula
     total = 0
-    for i, item in enumerate(user_input_data):
-        key = item['key']
-        value = item['value']
-        total += value * numeric_values[i]
+    for item in user_input_data:
+        current_weight = item['value'] * numeric_values[int(item['key'])-100-1]
+        total += current_weight
+        print(item, item['value'], numeric_values[int(item['key'])-100-1], current_weight, total)
 
     return round(total, 3)
 
