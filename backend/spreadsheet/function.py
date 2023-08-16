@@ -31,9 +31,16 @@ def get_weight_sheet(base_sheet, sheet_name, item_id):
 
 
 def calculate_result(user_input_data, weight_data_from_sheet):
-    print(user_input_data)
-    print(weight_data_from_sheet)
-    return 0
+    numeric_values = [float(value) for value in weight_data_from_sheet[3:]]
+    print(numeric_values)
+    # Calculate the total based on the given formula
+    total = 0
+    for i, item in enumerate(user_input_data):
+        key = item['key']
+        value = item['value']
+        total += value * numeric_values[i]
+
+    return round(total, 3)
 
 
 def get_data_from_sheets(sheet_name, item_id):
@@ -44,7 +51,6 @@ def get_data_from_sheets(sheet_name, item_id):
 
 def calculate_weighted_sum(sheet_name, item_id, user_input_data):
     weight_data = get_data_from_sheets(sheet_name, item_id)
-    print(weight_data)
     return calculate_result(user_input_data, weight_data)
 
 

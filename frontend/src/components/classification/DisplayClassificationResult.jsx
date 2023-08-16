@@ -47,6 +47,15 @@ export const DisplayClassificationResult = ({ results, userInputData }) => {
           })}
         </Box>
       ))}
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        marginTop={"20px"}
+        noValidate
+        autoComplete="off"
+      >
 
       {selectedRow.map((originalValue, index) => (
         <TextField
@@ -60,6 +69,7 @@ export const DisplayClassificationResult = ({ results, userInputData }) => {
           margin="normal"
         />
       ))}
+      </Box>
     </Box>
   );
 };
