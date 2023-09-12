@@ -1,25 +1,76 @@
 import requests
+import json
 
 
-def fetch_q1_data(request):
-    url = "https://script.google.com/macros/s/AKfycbzY_xV-3nFoe9bbKQHV7FIZSEK1QhpXWcMXmzaBC0iLKicZzY9MUds2abAdTnME8tEa/exec"
-
-    response = requests.get(url)
-    data = response.json()
-    return data
+DB_URL = "http://74.50.86.117/db_api/crud/"
 
 
-def fetch_q2_data(request):
-    url = "https://script.google.com/macros/s/AKfycbz3Q5QbS-rwYo0OCwPPg7On6dPESPglRmQNbdhK3GQlRJRh23BnCXK1mKnY5775lsm-/exec"
-
-    response = requests.get(url)
-    data = response.json()
-    return data
+def fetch(url, data):
 
 
-def fetch_q3_data(request):
-    url = "https://script.google.com/macros/s/AKfycbztX-CX89Ad1d75WCnyqewERJUJDsOcYh1qkTDLtWe7PCdKVJR7ZPu-4_p6-8sAeeU/exec"
 
-    response = requests.get(url)
-    data = response.json()
-    return data
+    response = requests.get(url, data=data)
+
+
+    print(response.text)
+
+    return json.loads(response.text)
+
+def fetch_q1_data():
+    data = {
+        'db_name': "customer_needs",
+        'coll_name': "question_1_weight",
+        'operation': "fetch",
+        'data':""
+    }
+
+    response = fetch(DB_URL, data)
+
+    return response['data']
+
+
+def fetch_q2_data():
+    data = {
+        'db_name': "customer_needs",
+        'coll_name': "question_2_weight",
+        'operation': "fetch",
+        'data':""
+    }
+
+    response = fetch(DB_URL, data)
+
+    return response['data']
+
+def fetch_q3_data():
+    data = {
+        'db_name': "customer_needs",
+        'coll_name': "question_3_weight",
+        'operation': "fetch",
+        'data':""
+    }
+
+    response = fetch(DB_URL, data)
+
+    return response['data']
+
+
+def fetch_tags():
+    data = {
+        'db_name': "customer_needs",
+        'coll_name': "tags_master",
+        'operation': "fetch",
+        'data':""
+    }
+
+    response = fetch(DB_URL, data)
+
+    return response['data']
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 import {
   TableContainer,
@@ -34,59 +34,41 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-export default function DataCalculation({ selectedOptions, updatedRows}) {
-  const [loadingSpread, setLoadingSpread] = useState(false);
-
+export default function DataCalculation({ selectedOptions }) {
   const isSubmitDisabled =
     !selectedOptions?.selectedQuestionOneData ||
     !selectedOptions?.selectedQuestionTwoData ||
     !selectedOptions?.selectedQuestionThreeData;
-  const [spreadData, setSpreadData] = useState([]);
 
-  const callSheetData = () => {
-    setLoadingSpread(true);
-    fetch("/api/spreadsheet/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        Q1Regression: selectedOptions.selectedQuestionOneData['Item ID'],
-        Q2Regression: selectedOptions.selectedQuestionTwoData['Item ID'],
-        Q3Regression: selectedOptions.selectedQuestionThreeData['Item ID'],
-        input:updatedRows
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSpreadData(data);
-        setLoadingSpread(false);
-      })
-      .catch((error) => {
-        alert(
-          "Error fetching spreadsheet data : No data found for the selected questions"
-        );
-        setLoadingSpread(false);
-      });
+  const [finalRegressions, setFinalRegressions] = useState(["-", "-", "-"]);
+
+  const calculateREgression = () => {
+    const Q1Final = calculateRegression(
+      selectedOptions.selectedQuestionOneData
+    );
+    const Q2Final = calculateRegression(
+      selectedOptions.selectedQuestionTwoData
+    );
+    const Q3Final = calculateRegression(
+      selectedOptions.selectedQuestionThreeData
+    );
+
+    setFinalRegressions([Q1Final, Q2Final, Q3Final]);
   };
 
   return (
     <>
       <Card sx={{ minWidth: 250, maxWidth: 1200, marginTop: "30px" }}>
         <Box>
-          <LoadingButton
-            loading={loadingSpread}
+          <Button
             variant="contained"
             color="info"
-            onClick={(event) => {
-              callSheetData();
-            }}
+            onClick={calculateREgression}
             disabled={isSubmitDisabled}
             sx={{ width: "100%", maxWidth: 250, marginBottom: "8px" }}
           >
             Regression
-          </LoadingButton>
+          </Button>
         </Box>
 
         <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
@@ -102,25 +84,26 @@ export default function DataCalculation({ selectedOptions, updatedRows}) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {loadingSpread ? (
-                  <TableRow>
-                    <TableCell component="th" scope="row">
-                      <CircularProgress size={24} color="primary" />
-                    </TableCell>
-                    <TableCell align="right">
-                      <CircularProgress size={24} color="primary" />
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  spreadData.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {row.category}
-                      </TableCell>
-                      <TableCell align="right">{row.value}</TableCell>
-                    </TableRow>
-                  ))
-                )}
+                <TableRow key={1}>
+                  <TableCell component="th" scope="row">
+                    Question 1
+                  </TableCell>
+                  <TableCell align="right">{finalRegressions[0]}</TableCell>
+                </TableRow>
+
+                <TableRow key={2}>
+                  <TableCell component="th" scope="row">
+                    Question 2
+                  </TableCell>
+                  <TableCell align="right">{finalRegressions[1]}</TableCell>
+                </TableRow>
+
+                <TableRow key={3}>
+                  <TableCell component="th" scope="row">
+                    Question 3
+                  </TableCell>
+                  <TableCell align="right">{finalRegressions[2]}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
@@ -129,3 +112,21 @@ export default function DataCalculation({ selectedOptions, updatedRows}) {
     </>
   );
 }
+
+const calculateRegression = ({ weights, regressions }) => {
+  let finalSum = 0;
+  for (const weight of weights) {
+    const reg = regressions.find((regression) => regression.tag == weight.tag);
+
+    if (reg === undefined) continue;
+
+    let w = weight.value;
+    let r = reg.value;
+
+    if (typeof w !== "number") w = 0;
+    if (typeof r !== "number") r = 0;
+
+    finalSum = finalSum + r * w;
+  }
+  return finalSum;
+};
