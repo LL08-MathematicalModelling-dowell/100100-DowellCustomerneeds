@@ -8,8 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-
-const pages = ["Home", "About", "Contact"];
+import { Link } from "react-router-dom";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -26,21 +25,23 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontWeight: 700,
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Customer Needs
-          </Typography>
+          <Box display={"flex"}>
+            <Link to="/admin/">
+              <Typography
+                textAlign="center"
+                color={"white"}
+                sx={{ marginRight: "30px" }}
+              >
+                Edit tag
+              </Typography>
+            </Link>
+
+            <Link to="/admin/add/">
+              <Typography textAlign="center" color={"white"}>
+                Add question data
+              </Typography>
+            </Link>
+          </Box>
 
           {/* Mobile Menu*/}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -72,14 +73,19 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem key={"admin"} onClick={handleCloseNavMenu}>
+                <Link to="/admin/">
+                  <Typography textAlign="center">Edit tag</Typography>
+                </Link>
+              </MenuItem>
+
+              <MenuItem key={"admin/add"} onClick={handleCloseNavMenu}>
+                <Link to="/admin/add/">
+                  <Typography textAlign="center">Add question data</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
-          
         </Toolbar>
       </Container>
     </AppBar>

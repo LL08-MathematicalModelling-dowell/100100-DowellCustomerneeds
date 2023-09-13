@@ -3,7 +3,6 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-import { Classification } from "./classification/Classification";
 import DataCalculation from "./DataCalculation";
 import { QuestionsSelection } from "./QuestionsSelection";
 
@@ -14,12 +13,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const MainContent = () => {
+export const UserContent = () => {
   const [selectedOptions, setSelectedOptions] = React.useState();
-
-  React.useEffect(() => {
-    console.log("selectedOption", selectedOptions);
-  }, [selectedOptions]);
 
   return (
     <Box sx={{ flexGrow: 1 }} margin={2}>
@@ -28,9 +23,7 @@ export const MainContent = () => {
           onSelectionChange={(value) => setSelectedOptions(value)}
         />
       </Box>
-      <Box height={"400px"}>
-        <Classification selectedOptions={selectedOptions} />
-      </Box>
+
       <Box>
         <DataCalculation selectedOptions={selectedOptions} />
       </Box>
@@ -38,4 +31,4 @@ export const MainContent = () => {
   );
 };
 
-export default MainContent;
+export default UserContent;

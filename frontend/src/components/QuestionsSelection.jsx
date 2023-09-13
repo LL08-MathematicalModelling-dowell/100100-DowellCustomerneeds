@@ -2,71 +2,48 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Box, CircularProgress } from "@mui/material";
+import { useQuestion1 } from "../question-hooks/useQuestion1";
+import { useQuestion2 } from "../question-hooks/useQuestion2";
+import { useQuestion3 } from "../question-hooks/useQuestion3";
 
 export const QuestionsSelection = ({ onSelectionChange }) => {
-  const [questionOneData, setQuestionOneData] = useState([]);
-  const [questionTwoData, setQuestionTwoData] = useState([]);
-  const [questionThreeData, setQuestionThreeData] = useState([]);
+  const { data: questionOneData } = useQuestion1();
+  const { data: questionTwoData } = useQuestion2();
+  const { data: questionThreeData } = useQuestion3();
+
   const [selectedQuestionOneData, setSelectedQuestionOneData] = useState(null);
   const [selectedQuestionTwoData, setSelectedQuestionTwoData] = useState(null);
-  const [selectedQuestionThreeData, setSelectedQuestionThreeData] = useState(null);
-  
+  const [selectedQuestionThreeData, setSelectedQuestionThreeData] =
+    useState(null);
 
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true); 
-    setTimeout(() => {
-      
-      fetch("/api/QuestionOne/")
-        .then((response) => response.json())
-        .then((data) => {
-          setQuestionOneData(data);
-          setLoading(false); 
-        })
-        .catch((error) => {
-          console.error("Error fetching QuestionOne data:", error);
-          setLoading(false); 
-        });
-
-      fetch("/api/QuestionTwo/")
-        .then((response) => response.json())
-        .then((data) => {
-          setQuestionTwoData(data);
-          setLoading(false); 
-        })
-        .catch((error) => {
-          console.error("Error fetching QuestionTwo data:", error);
-          setLoading(false);
-        });
-
-      fetch("/api/QuestionThree/")
-        .then((response) => response.json())
-        .then((data) => {
-          setQuestionThreeData(data);
-          setLoading(false); 
-        })
-        .catch((error) => {
-          console.error("Error fetching QuestionThree data:", error);
-          setLoading(false); 
-        });
-    }, 2000);
-  }, []);
+  const loading =
+    questionOneData === undefined ||
+    questionTwoData === undefined ||
+    questionThreeData === undefined;
 
   useEffect(() => {
-    onSelectionChange({ selectedQuestionOneData, selectedQuestionTwoData, selectedQuestionThreeData });
-  }, [selectedQuestionOneData, selectedQuestionTwoData, selectedQuestionThreeData]);
+    onSelectionChange({
+      selectedQuestionOneData,
+      selectedQuestionTwoData,
+      selectedQuestionThreeData,
+    });
+  }, [
+    selectedQuestionOneData,
+    selectedQuestionTwoData,
+    selectedQuestionThreeData,
+  ]);
 
   return (
     <Box display={"flex"} justifyContent={"space-between"}>
       <Autocomplete
         disablePortal
-        id="questionOne"
+        key="questionOne"
         options={loading ? [] : questionOneData}
         value={selectedQuestionOneData}
         onChange={(e, v) => setSelectedQuestionOneData(v)}
         sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
-        getOptionLabel={(questionOneData) => questionOneData.Item || ""}
+        getOptionLabel={(questionOneData) => questionOneData.item}
+        isOptionEqualToValue={(option, value) => option._id === value._id}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -80,15 +57,23 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
             size="small"
           />
         )}
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option._id}>
+              {option.item}
+            </li>
+          );
+        }}
       />
       <Autocomplete
         disablePortal
-        id="questionTwo"
+        key="questionTwo"
         options={loading ? [] : questionTwoData}
         value={selectedQuestionTwoData}
         onChange={(e, v) => setSelectedQuestionTwoData(v)}
         sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
-        getOptionLabel={(questionTwoData) => questionTwoData.Item || ""}
+        getOptionLabel={(questionTwoData) => questionTwoData.item}
+        isOptionEqualToValue={(option, value) => option._id === value._id}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -102,15 +87,23 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
             size="small"
           />
         )}
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option._id}>
+              {option.item}
+            </li>
+          );
+        }}
       />
       <Autocomplete
         disablePortal
-        id="questionThree"
+        key="questionThree"
         options={loading ? [] : questionThreeData}
         value={selectedQuestionThreeData}
         onChange={(e, v) => setSelectedQuestionThreeData(v)}
         sx={{ width: "100%", maxWidth: 250, flexGrow: 1 }}
-        getOptionLabel={(questionThreeData) => questionThreeData.Item || ""}
+        getOptionLabel={(questionThreeData) => questionThreeData.item}
+        isOptionEqualToValue={(option, value) => option._id === value._id}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -120,6 +113,13 @@ export const QuestionsSelection = ({ onSelectionChange }) => {
             size="small"
           />
         )}
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option._id}>
+              {option.item}
+            </li>
+          );
+        }}
       />
     </Box>
   );
