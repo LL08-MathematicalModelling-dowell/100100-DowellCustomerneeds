@@ -25,6 +25,8 @@ export function UpdateTaggedValues({
         : { weights: cleanedTags };
 
     const reqData = {
+      api_key:
+        "wp#!zf&}GPiy06'7'G%3:6]l;].V|<[KIsmlGZCcgm9Enx664fi1psHbJWBM1FZK",
       db_name: "customer_needs",
       coll_name: selectedQuestionSet,
       operation: "update",

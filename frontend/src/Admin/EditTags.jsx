@@ -10,7 +10,7 @@ import { QuestionSetSelection } from "./QuestionSetSelection";
 import { TagTypeSelection } from "./TagTypeSelection";
 import { useTags } from "./tags";
 
-export const URL = "http://74.50.86.117/db_api/crud/";
+export const URL = "https://datacube.uxlivinglab.online/db_api/crud/";
 
 const QUESTION_1_COLLECTION_NAME = "question_1_weight";
 
