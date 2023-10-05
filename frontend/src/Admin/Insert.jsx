@@ -4,7 +4,9 @@ import { useState } from "react";
 import { usePostClient } from "../client/postClient";
 import { Status } from "../client/status";
 
-const DB_URL = "http://74.50.86.117/db_api/crud/";
+const DB_URL = "https://datacube.uxlivinglab.online/db_api/crud/";
+const API_KEY =
+  "wp#!zf&}GPiy06'7'G%3:6]l;].V|<[KIsmlGZCcgm9Enx664fi1psHbJWBM1FZK";
 
 export const InsertData = () => {
   const [q1, setQ1] = useState("");
@@ -20,6 +22,7 @@ export const InsertData = () => {
       return;
     }
     const reqData = {
+      api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_1_weight",
       operation: "insert",
@@ -35,6 +38,7 @@ export const InsertData = () => {
     }
 
     const reqData = {
+      api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_2_weight",
       operation: "insert",
@@ -50,6 +54,7 @@ export const InsertData = () => {
     }
 
     const reqData = {
+      api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_3_weight",
       operation: "insert",
@@ -60,6 +65,7 @@ export const InsertData = () => {
 
   const addTag = () => {
     const reqData = {
+      api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "tags_master",
       operation: "insert",
