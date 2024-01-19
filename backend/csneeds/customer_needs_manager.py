@@ -53,6 +53,48 @@ def fetch_tags():
 
 
 
+def get_sentences():
+    return [
+        {
+            "_id": "id",
+            "sentence": "sentence",
+            "score": 3
+        },
+        {
+            "_id": "id",
+            "sentence": "sentence",
+            "score": -34
+        },
+        {
+            "_id": "id",
+            "sentence": "sentence",
+            "score": -3
+        },
+        {
+            "_id": "id",
+            "sentence": "sentence",
+            "score": 34
+        },
+    ]
+    
+def order_sentences(sentences, score):
+    order_function = lambda sentence: abs(sentence["score"] - score)
+    ordered_sentences = sorted(sentences, key= order_function)
+    return ordered_sentences
+
+
+def get_closeset_sentences(final_score):
+    # Get the sentences from the sentence generation API
+    sentences = get_sentences()
+    
+    # Order the sentences according to their closenes to the final score
+    ordered_sentences = order_sentences(sentences, final_score)
+    
+    # return the final answer
+    return {
+        "final_score": final_score,
+        "closest_sentences": ordered_sentences
+    }
 
 
 
