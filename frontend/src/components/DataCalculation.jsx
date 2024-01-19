@@ -40,25 +40,17 @@ export default function DataCalculation({ selectedOptions }) {
     !selectedOptions?.selectedQuestionTwoData ||
     !selectedOptions?.selectedQuestionThreeData;
 
-  const [finalRegressions, setFinalRegressions] = useState(["-", "-", "-"]);
+  const [finalRegressions, setFinalRegressions] = useState(["-", "-", "-", "-"]);
 
   const calculateREgression = () => {
-    const Q1Final = calculateRegression(
-      selectedOptions.selectedQuestionOneData
-    );
-    const Q2Final = calculateRegression(
-      selectedOptions.selectedQuestionTwoData
-    );
-    const Q3Final = calculateRegression(
-      selectedOptions.selectedQuestionThreeData
-    );
-
-    setFinalRegressions([Q1Final, Q2Final, Q3Final]);
+    const FinalScores = calculateFinalScore(selectedOptions)
+    setFinalRegressions(FinalScores);
   };
 
   return (
     <>
       <Card sx={{ minWidth: 250, maxWidth: 1200, marginTop: "30px" }}>
+      <Box display={"flex"} justifyContent={"space-between"}>
         <Box>
           <Button
             variant="contained"
@@ -69,6 +61,20 @@ export default function DataCalculation({ selectedOptions }) {
           >
             Regression
           </Button>
+        </Box>
+
+        <Box>
+          <Button
+            variant="contained"
+            color="info"
+            onClick={calculateREgression}
+            disabled={isSubmitDisabled}
+            sx={{ width: "100%", maxWidth: 250, marginBottom: "8px" }}
+          >
+            Generate
+          </Button>
+        </Box>
+        
         </Box>
 
         <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
@@ -104,6 +110,13 @@ export default function DataCalculation({ selectedOptions }) {
                   </TableCell>
                   <TableCell align="right">{finalRegressions[2]}</TableCell>
                 </TableRow>
+
+                <TableRow key={3}>
+                  <TableCell component="th" scope="row">
+                    Final score
+                  </TableCell>
+                  <TableCell align="right">{finalRegressions[3]}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
@@ -129,4 +142,26 @@ const calculateRegression = ({ weights, regressions }) => {
     finalSum = finalSum + r * w;
   }
   return finalSum;
+};
+
+
+
+const calculateFinalScore = ({selectedQuestionOneData, selectedQuestionTwoData, selectedQuestionThreeData}) => {
+  const Q1Final = calculateRegression(
+    selectedQuestionOneData
+  );
+  const Q2Final = calculateRegression(
+    selectedQuestionTwoData
+  );
+  const Q3Final = calculateRegression(
+    selectedQuestionThreeData
+  );
+
+  const FinalScoreFinal = (selectedQuestionOneData.question_weight * Q1Final
+                          +selectedQuestionTwoData.question_weight * Q2Final
+                          +selectedQuestionThreeData.question_weight * Q3Final )
+
+
+  return [Q1Final, Q2Final, Q3Final, FinalScoreFinal]
+
 };

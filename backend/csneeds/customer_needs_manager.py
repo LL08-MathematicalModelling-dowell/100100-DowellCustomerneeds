@@ -22,6 +22,10 @@ def fetch(coll_name):
     except Exception as e:
         return {'isSuccess':True, 'error': str(e)}
     
+    data = response_data['data']
+    for question in data:
+        question["question_weight"] = 3
+    
 
     return {'isSuccess':True, 'data': response_data}
 
