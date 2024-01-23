@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 
 import DataCalculation from "./DataCalculation";
 import { QuestionsSelection } from "./QuestionsSelection";
+import SentenceGeneration from "./SentenceGeneration";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,6 +27,10 @@ export const UserContent = () => {
 
       <Box>
         <DataCalculation selectedOptions={selectedOptions} />
+      </Box>
+
+      <Box>
+        <SentenceGeneration selectedOptions={selectedOptions} />
       </Box>
     </Box>
   );

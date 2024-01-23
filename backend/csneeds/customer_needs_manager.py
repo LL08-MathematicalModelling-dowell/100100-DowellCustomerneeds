@@ -1,5 +1,6 @@
 import requests
 import json
+from .sentences import sentences
 
 
 DB_URL = "https://datacube.uxlivinglab.online/db_api/crud/"
@@ -54,28 +55,9 @@ def fetch_tags():
 
 
 def get_sentences():
-    return [
-        {
-            "_id": "id",
-            "sentence": "sentence",
-            "score": 3
-        },
-        {
-            "_id": "id",
-            "sentence": "sentence",
-            "score": -34
-        },
-        {
-            "_id": "id",
-            "sentence": "sentence",
-            "score": -3
-        },
-        {
-            "_id": "id",
-            "sentence": "sentence",
-            "score": 34
-        },
-    ]
+    # call the sentence generation api when it is finished to get the sentences  
+    return sentences
+
     
 def order_sentences(sentences, score):
     order_function = lambda sentence: abs(sentence["score"] - score)

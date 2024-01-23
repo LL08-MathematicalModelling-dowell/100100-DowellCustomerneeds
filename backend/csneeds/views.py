@@ -30,4 +30,5 @@ class TagView(APIView):
 class GetClosestSentences(APIView):
     def post(self, request):
         final_score = request.data.get("final_score")
+        # final_score = 3
         return Response(get_closeset_sentences(final_score))

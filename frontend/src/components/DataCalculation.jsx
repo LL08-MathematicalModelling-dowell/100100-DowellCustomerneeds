@@ -63,18 +63,6 @@ export default function DataCalculation({ selectedOptions }) {
             Regression
           </Button>
         </Box>
-
-        <Box>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={calculateREgression}
-            disabled={isSubmitDisabled}
-            sx={{ width: "100%", maxWidth: 250, marginBottom: "8px" }}
-          >
-            Generate
-          </Button>
-        </Box>
         
         </Box>
 
