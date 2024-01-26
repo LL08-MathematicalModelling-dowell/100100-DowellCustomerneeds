@@ -22,7 +22,11 @@ export function UpdateTaggedValues({
     const updateData =
       tagTypeValue == "regressions"
         ? { regressions: cleanedTags }
-        : { weights: cleanedTags };
+        : tagTypeValue == "weights"
+          ? { weights: cleanedTags }
+          : { question_weight: cleanedTags[0].value}
+
+    console.log(updateData)
 
     const reqData = {
       api_key:

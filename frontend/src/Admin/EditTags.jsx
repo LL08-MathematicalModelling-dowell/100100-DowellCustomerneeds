@@ -36,7 +36,7 @@ export const EditTagComponent = () => {
   }, [selectedQuestion, tagTypeValue]);
 
   return (
-    <Box padding={2}>
+    <Box padding={2} >
       <React.Fragment>
         <TagTypeSelection
           setSelectedQuestionOption={setSelectedQuestion}
@@ -55,7 +55,7 @@ export const EditTagComponent = () => {
         />
 
         {selectedQuestion == null || (
-          <AllTagsInput
+          <AllTagsInput 
             tagValues={tagValues}
             onTagValuesChange={(newVal, index) => {
               const temTags = [...tagValues];
@@ -82,6 +82,9 @@ export const EditTagComponent = () => {
 export default EditTagComponent;
 
 function mergeAllTagsAndQTags(tags, tagTypeValue, selectedQuestionOption) {
+  if (tagTypeValue === "question_weight")
+    return [{tag: "question_weight", value: selectedQuestionOption.question_weight}]
+
   return tags.map((tag) => {
     const tagsSet =
       tagTypeValue == "regressions"

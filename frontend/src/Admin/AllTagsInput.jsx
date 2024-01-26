@@ -8,7 +8,7 @@ export function AllTagsInput({
   selectedQuestionId,
 }) {
   return (
-    <Box display={"flex"} flexWrap={"wrap"}>
+    <Box display={"flex"} flexWrap={"wrap"}  style={{ marginTop: '30px', marginBottom: '30px' }}>
       {tagValues.map((value, index) => {
         return (
           <Box key={`${selectedQuestionId}${index}`} flexBasis={"33.333333%"}>

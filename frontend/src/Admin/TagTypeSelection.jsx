@@ -15,6 +15,7 @@ export function TagTypeSelection(props) {
     >
       <Tab label="Regression" value="regressions" />
       <Tab label="weights" value="weights" />
+      <Tab label="Question weight" value="question_weight" />
     </Tabs>
   );
 }
