@@ -5,6 +5,7 @@ import EditTagPage from "./EditTagPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { InsertData } from "./Admin/Insert.jsx";
 import AddQuestionData from "./Admin/AddQuestionData.jsx";
+import DeleteData from "./Admin/DeleteData.jsx";
 import UserContent from "./components/User.jsx";
 
 const router = createBrowserRouter([
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/add/",
     element: <AddQuestionData />,
+  },
+  {
+    path: "/admin/delete/",
+    element: <DeleteData />,
   },
   {
     path: "/",

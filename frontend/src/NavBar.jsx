@@ -41,6 +41,12 @@ function ResponsiveAppBar() {
                 Add question data
               </Typography>
             </Link>
+
+            <Link to="/admin/delete/">
+              <Typography textAlign="center" color={"white"} sx={{marginLeft: 5}}>
+                Delete Question Data
+              </Typography>
+            </Link>
           </Box>
 
           {/* Mobile Menu*/}
@@ -82,6 +88,13 @@ function ResponsiveAppBar() {
               <MenuItem key={"admin/add"} onClick={handleCloseNavMenu}>
                 <Link to="/admin/add/">
                   <Typography textAlign="center">Add question data</Typography>
+                </Link>
+              </MenuItem>
+
+
+              <MenuItem key={"admin/delete"} onClick={handleCloseNavMenu} >
+                <Link to="/admin/delete/">
+                  <Typography textAlign="center">Delete question data</Typography>
                 </Link>
               </MenuItem>
             </Menu>

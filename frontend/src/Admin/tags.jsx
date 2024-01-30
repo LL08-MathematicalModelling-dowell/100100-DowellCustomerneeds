@@ -1,6 +1,6 @@
 import { useGetClient } from "../client/getClient";
 
 export const useTags = () => {
-  const { responseData } = useGetClient("/api/tags/");
-  return responseData;
+  const { responseData, reload } = useGetClient("/api/tags/");
+  return {tags: responseData, reloadTags: reload};
 };

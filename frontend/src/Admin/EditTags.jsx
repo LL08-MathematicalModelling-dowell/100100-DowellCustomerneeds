@@ -22,7 +22,7 @@ export const EditTagComponent = () => {
   const { selectedSetQuestions, reloadQuestions } =
     useQuestions(selectedQuestionSet);
 
-  const tags = useTags();
+  const {tags, reloadTags} = useTags();
 
   const [tagTypeValue, setTagTypeValue] = useState("regressions");
 

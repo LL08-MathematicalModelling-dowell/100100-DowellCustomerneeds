@@ -3,7 +3,7 @@ import { Status } from "./status";
 
 export const useGetClient = (url) => {
   const [status, setStatus] = useState(Status.NotStarted);
-  const [responseData, setResponseData] = useState();
+  const [responseData, setResponseData] = useState([]);
 
   const fetchData = useCallback(async () => {
     setStatus(Status.Pending);
