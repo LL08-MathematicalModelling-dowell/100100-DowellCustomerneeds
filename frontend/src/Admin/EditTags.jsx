@@ -52,6 +52,7 @@ export const EditTagComponent = () => {
           onSelectionChange={setSelectedQuestion}
           questions={selectedSetQuestions}
           selectedQuestion={selectedQuestion}
+          label={"Select Question"}
         />
 
         {selectedQuestion == null || (

@@ -17,8 +17,6 @@ const API_KEY =
 export const Delete = () => {
 
   
-  const { status, postData } = usePostClient();
-  
   const [selectedQuestion1, setSelectedQuestion1] = React.useState(null);
   const [selectedQuestion2, setSelectedQuestion2] = React.useState(null);
   const [selectedQuestion3, setSelectedQuestion3] = React.useState(null);
@@ -28,7 +26,28 @@ export const Delete = () => {
     useQuestions("question_1_weight");
 
 
-    // console.log(Questions1);
+  const deleteData = async (data, url) => {
+    try {
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      console.log(responseData); // Log the response data if needed
+    } catch (error) {
+      console.error('Error during deleteData:', error);
+      // Handle error as needed
+    }
+  };
+  // console.log(Questions1);
 
   const { selectedSetQuestions: Questions2, reloadQuestions: reloadQuestion2 } =
     useQuestions("question_2_weight");
@@ -38,8 +57,8 @@ export const Delete = () => {
   const {tags, reloadTags} = useTags();
   console.log(tags);
 
-  const addQuestion1 = () => {
-    if (q1 == "") {
+  const deleteQuestion1 = () => {
+    if (selectedQuestion1 === null) {
       alert("empty field");
       return;
     }
@@ -47,14 +66,18 @@ export const Delete = () => {
       api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_1_weight",
-      operation: "insert",
-      data: { item: q1, regressions: [], weights: [] },
+      operation: "delete",
+      query: {
+          _id: selectedQuestion1._id
+    }
     };
-    postData(reqData, DB_URL);
+    deleteData(reqData, DB_URL);
+    reloadQuestion1();
+    setSelectedQuestion1(null);
   };
 
-  const addQuestion2 = () => {
-    if (q2 == "") {
+  const deleteQuestion2 = () => {
+    if (selectedQuestion2 === null) {
       alert("empty field");
       return;
     }
@@ -63,14 +86,20 @@ export const Delete = () => {
       api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_2_weight",
-      operation: "insert",
-      data: { item: q2, regressions: [], weights: [] },
+      operation: "delete",
+      query: {
+          _id: selectedQuestion2._id
+      }
     };
-    postData(reqData, DB_URL);
+    deleteData(reqData, DB_URL);
+    reloadQuestion2();
+    setSelectedQuestion2(null);
+
+
   };
 
-  const addQuestion3 = () => {
-    if (q3 == "") {
+  const deleteQuestion3 = () => {
+    if (selectedQuestion3 === null) {
       alert("empty field");
       return;
     }
@@ -79,27 +108,42 @@ export const Delete = () => {
       api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "question_3_weight",
-      operation: "insert",
-      data: { item: q3, regressions: [], weights: [] },
+      operation: "delete",
+      query: {
+          _id: selectedQuestion3._id
+      }
     };
-    postData(reqData, DB_URL);
+    deleteData(reqData, DB_URL);
+    reloadQuestion3();
+    setSelectedQuestion3(null);
+
+
   };
 
-  const addTag = () => {
+  const deleteTag = () => {
+    if (tag === null) {
+      alert("empty field");
+      return;
+    }
     const reqData = {
       api_key: API_KEY,
       db_name: "customer_needs",
       coll_name: "tags_master",
-      operation: "insert",
-      data: { name: tag },
+      operation: "delete",
+      query: {
+          _id: tag._id
+      }
     };
-    postData(reqData, DB_URL);
+    deleteData(reqData, DB_URL);
+    setTag(null);
+    reloadTags();
+
   };
 
 
   React.useEffect(() => {
 
-  }, []);
+  }, [Questions1, Questions2, Questions3, tags]);
 
 //   console.log(Questions1)
 
@@ -115,10 +159,11 @@ export const Delete = () => {
           onSelectionChange={setSelectedQuestion1}
           questions={Questions1}
           selectedQuestion={selectedQuestion1}
+          label={"Select Question"}
         />
         <LoadingButton
           variant="contained"
-          onClick={addQuestion1}
+          onClick={deleteQuestion1}
           loading={status == Status.Pending}
         >
           Delete Q1
@@ -135,10 +180,11 @@ export const Delete = () => {
           onSelectionChange={setSelectedQuestion2}
           questions={Questions2}
           selectedQuestion={selectedQuestion2}
+          label={"Select Question"}
         />
         <LoadingButton
           variant="contained"
-          onClick={addQuestion2}
+          onClick={deleteQuestion2}
           loading={status == Status.Pending}
         >
           Delete Q2
@@ -155,10 +201,11 @@ export const Delete = () => {
           onSelectionChange={setSelectedQuestion3}
           questions={Questions3}
           selectedQuestion={selectedQuestion3}
+          label={"Select Question"}
         />
         <LoadingButton
           variant="contained"
-          onClick={addQuestion3}
+          onClick={deleteQuestion3}
           loading={status == Status.Pending}
         >
           Delete Q3
@@ -175,20 +222,16 @@ export const Delete = () => {
           onSelectionChange={setTag}
           questions={tags.map((tag) => {
             const res =  {_id: tag._id, item: tag.name};
-            if(res.item === undefined){
-              console.log(tag)
-              console.log(res)
-
-            }
             return res;
           })}
           selectedQuestion={tag}
+          label={"Select Tag"}
         />
 
         <LoadingButton
           loading={status == Status.Pending}
           variant="contained"
-          onClick={addTag}
+          onClick={deleteTag}
         >
           Delete Tag
         </LoadingButton>

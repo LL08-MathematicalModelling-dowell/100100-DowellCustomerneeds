@@ -6,6 +6,7 @@ export const QuestionsOptionSelection = ({
   onSelectionChange,
   selectedQuestion,
   questions,
+  label,
 }) => {
   return (
     <Box display={"flex"} justifyContent={"space-between"} width={"50%"}>
@@ -17,7 +18,7 @@ export const QuestionsOptionSelection = ({
           onSelectionChange(v);
         }}
         renderInput={(params) => (
-          <TextField {...params} label="Select Questions" />
+          <TextField {...params} label={label} />
         )}
         getOptionLabel={(option) => option.item}
         isOptionEqualToValue={(option, value) => option._id === value._id}
