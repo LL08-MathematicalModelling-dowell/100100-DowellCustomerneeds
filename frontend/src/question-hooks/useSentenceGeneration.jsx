@@ -9,7 +9,7 @@ const useSentenceGeneration = () => {
     try {
       setLoading(true);
 
-      const apiUrl = 'http://127.0.0.1:8000/api/ClosestSentences/';
+      const apiUrl ='/api/ClosestSentences/';
       const postData = {
         final_score: finalScore
       };
